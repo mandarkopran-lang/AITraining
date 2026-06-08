@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>आर्टिफिशियल इंटेलिजन्स (AI) ची ओळख - संवादपर सादरीकरण</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #0284c7;
+            --accent: #f59e0b;
+            --bg: #0f172a;
+            --text: #334155;
+            --slide-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: var(--slide-bg);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .slide-deck {
+            flex: 1;
+            position: relative;
+            overflow-y: auto;
+            padding: 40px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide {
+            display: none;
+            height: 100%;
+            flex-direction: column;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        h1 {
+            font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+            color: var(--primary);
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+            color: var(--primary);
+            margin-bottom: 25px;
+            border-bottom: 4px solid var(--secondary);
+            padding-bottom: 10px;
+            display: inline-block;
+            max-width: 100%;
+        }
+
+        h3 {
+            font-size: clamp(1.1rem, 2.3vw, 1.5rem);
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style-type: none;
+            margin-bottom: 20px;
+        }
+
+        li {
+            font-size: clamp(0.9rem, 1.6vw, 1.15rem);
+            line-height: 1.6;
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 35px;
+        }
+
+        li::before {
+            content: "🔹";
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+
+        .title-slide {
+            text-align: center;
+            align-items: center;
+        }
+
+        .title-slide p {
+            font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .split-content {
+            width: 100%;
+        }
+
+        .split-media {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            height: 100%;
+            min-height: 300px;
+        }
+
+        .slide-image {
+            flex: 1;
+            min-width: 120px;
+            width: 100%;
+            height: auto;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .quiz-option {
+            background: #f1f5f9;
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1.05rem;
+            transition: all 0.2s;
+            border-left: 5px solid #cbd5e1;
+        }
+
+        .quiz-option:hover {
+            background: #e2e8f0;
+            border-left-color: var(--secondary);
+            transform: translateX(5px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+        }
+
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: var(--primary);
+        }
+
+        blockquote {
+            border-left: 5px solid var(--accent);
+            background: #fef3c7;
+            padding: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            font-size: 1.05rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .controls-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: #f1f5f9;
+            border-top: 1px solid #e2e8f0;
+            height: 70px;
+        }
+
+        .nav-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: var(--secondary);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .btn-quiz {
+            background: #10b981;
+        }
+
+        .btn-quiz:hover {
+            background: #059669;
+        }
+
+        .progress-indicator {
+            font-weight: 600;
+            color: #64748b;
+            font-size: 1rem;
+        }
+
+        .sections-menu {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            z-index: 100;
+        }
+
+        .sections-select {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            background: white;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="presentation-container">
+        <div class="sections-menu">
+            <select class="sections-select" id="sectionJump" onchange="jumpToSection(this.value)">
+                <option value="0">विभाग १: विषयाची पार्श्वभूमी</option>
+                <option value="5">विभाग २: AI चे मूलभूत नियम</option>
+                <option value="16">विभाग ३: आपल्या आजूबाजूचे AI</option>
+                <option value="28">विभाग ४: जनरेटिव्ह AI (Generative AI)</option>
+                <option value="41">विभाग ५: रोजच्या कामात AI चा वापर</option>
+                <option value="58">विभाग ६: प्रॉम्टिंगची जुजबी माहिती</option>
+                <option value="77">विभाग ७: प्रत्यक्ष सराव (Hands-on)</option>
+                <option value="88">विभाग ८: कामाची गती वाढवणे</option>
+                <option value="103">विभाग ९: AI च्या मर्यादा</option>
+                <option value="110">विभाग १०: सुरक्षित आणि जबाबदार वापर</option>
+                <option value="117">विभाग ११: भविष्य आणि समारोप</option>
+            </select>
+        </div>
+
+        <div class="slide-deck" id="deck">
+
+            <!-- SECTION 1 -->
+            <div class="slide active title-slide" data-section="0">
+                <h1>आर्टिफिशियल इंटेलिजन्स (AI) ची सोपी ओळख</h1>
+                <p>आपल्या रोजच्या व्यवहारातील आणि ऑफिसच्या कामातील AI चा वापर</p>
+                <div style="margin-top: 40px; font-size: 1.1rem; color: #64748b;">मंदार सालकाडे  • कोप्रान लिमिटेड</div>
+            </div>
+
+            <div class="slide" data-section="0">
+                <h2>तुम्ही आधीपासूनच AI वापरत आहात का?</h2>
+                <ul>
+                    <li>तुम्ही रस्त्यावरील ट्रॅफिक पाहण्यासाठी 'गुगल मॅप्स' (Google Maps) वापरता का?</li>
+                    <li>तुम्ही मोबाईलला 'हे गुगल' (Hey Google) सारखे व्हॉईस कमांड्स देता का?</li>
+                    <li>तुम्ही युट्यूब किंवा नेटफ्लिक्सवर सुचवलेले व्हिडिओ पाहता का?</li>
+                    <li>मोबाईलवर मेसेज टाईप करताना शब्दांचे स्पेलिंग दुरुस्त करणाऱ्या 'ऑटोकरेक्ट'ची मदत घेता का?</li>
+                </ul>
+                <p style="font-weight: bold; color: var(--secondary); margin-top: 20px; text-align: center; font-size: 1.4rem;">
+                    जर यापैकी एकाही प्रश्नाचे उत्तर 'हो' असेल... तर तुम्ही आधीपासूनच AI वापरत आहात! 😊
+                </p>
+            </div>
+
+            <div class="slide" data-section="0">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>आर्टिफिशियल इंटेलिजन्स म्हणजे नक्की काय?</h2>
+                        <p><strong>साधी व्याख्या:</strong> AI म्हणजे माणसाप्रमाणे विचार करण्याची, डेटा समजून घेण्याची आणि निर्णय घेण्याची कॉम्प्युटर किंवा मशीनची क्षमता.</p>
+                        <ul>
+                            <li>माहितीच्या (Data) अफाट साठ्यातून स्वतःहून महत्त्वाचे पॅटर्न शोधणारी सिस्टीम.</li>
+                            <li>आपल्या रोजच्या अडचणी आणि क्लिष्ट कामे सोपी करण्यासाठी बनवलेले इंजिन.</li>
+                            <li>भविष्यात काय घडू शकते, याचा डेटाच्या आधारे अचूक अंदाज लावणारे तंत्रज्ञान.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image001.png" alt="Machine Intelligence Overview" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="0">
+                <h2>AI आपल्या सभोवतालीच आहे</h2>
+                <p>आपल्या मोबाईलमधील सॉफ्टवेअर्स आपले काम सोपे करण्यासाठी बॅकग्राउंडला सतत काम करत असतात:</p>
+                <ul>
+                    <li><strong>गुगल मॅप्स:</strong> रस्त्यावरील गर्दी (Live Traffic) पाहून आपल्याला लगेच दुसरा सोपा रस्ता सुचवते.</li>
+                    <li><strong>युट्यूब आणि नेटफ्लिक्स:</strong> तुमचा मूड आणि आवड ओळखून तुम्हाला आवडतील तेच व्हिडिओ समोर आणते.</li>
+                    <li><strong>स्मार्टफोन:</strong> सेकंदात आपला चेहरा ओळखून फोन अनलॉक करतो आणि फोटो आपोआप सुंदर बनवतो.</li>
+                    <li><strong>ऑनलाईन शॉपिंग:</strong> तुम्ही पूर्वी काय खरेदी केले ते पाहून तुम्हाला उपयोगी पडतील अशाच वस्तू दाखवते.</li>
+                    <li><strong>ईमेल फिल्टर:</strong> नको असलेले फालतू (Spam) मेसेज मुख्य इनबॉक्समधून स्वतःहून बाजूला काढते.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="0">
+                <h2>आपण AI का शिकले पाहिजे?</h2>
+                <p>AI वापरण्यास शिकल्यामुळे तुमच्या रोजच्या कामाची पद्धत आणि कार्यक्षमता पूर्णपणे बदलू शकते:</p>
+                <ul>
+                    <li>⏳ <strong>वेळेची प्रचंड बचत:</strong> मसुदा तयार करणे किंवा त्याचे फॉरमॅटिंग करणे या कामांचा वेळ वाचतो.</li>
+                    <li>💼 <strong>साधी आणि सोपी कामे:</strong> रोजची कागदपत्रांची कंटाळवाणी आणि पुन्हा पुन्हा करावी लागणारी कामे झटपट होतात.</li>
+                    <li>📈 <strong>कामाचा दर्जा सुधारतो:</strong> कमी वेळेत अचूक आणि दर्जेदार आउटपुट तयार करता येते.</li>
+                    <li>🤝 <strong>उत्तम निर्णय क्षमता:</strong> कोणताही महत्त्वाचा निर्णय घेताना डेटावर आधारित मदत मिळते.</li>
+                </ul>
+                <blockquote>महत्त्वाचा विचार: AI ही भविष्यातील गोष्ट नाही—ती आपल्या वर्तमानातील वस्तुस्थिती आहे आणि...</blockquote>
+            </div>
+
+            <!-- SECTION 2 -->
+            <div class="slide" data-section="5">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>माणूस आणि AI यांच्या शिकण्यात काय फरक आहे?</h2>
+                        <ul>
+                            <li><strong>आपण (माणसं):</strong> आपण आजूबाजूचे अनुभव, आई-वडिलांचे किंवा शिक्षकांचे मार्गदर्शन आणि चुकांमधून शिकतो.</li>
+                            <li><strong>AI सिस्टीम:</strong> ही सिस्टीम केवळ आणि केवळ लाखो जुन्या डेटा फाईल्स, आकडेवारी आणि पॅटर्न्सचा अभ्यास करून स्वतःचे नियम तयार करते.</li>
+                        </ul>
+                        <p><em>साधे उदाहरण:</em> एखादे लहान मूल कुत्र्याचे मोजके फोटो किंवा प्रत्यक्षात त्याला पाहून कुत्रा ओळखायला शिकते. पण AI ला कुत्रा ओळखण्यासाठी हजारो फोटोंमधील पिक्सल्सचा अभ्यास करावा लागतो.</p>
+                    </div>
+                    <div class="split-media">
+                        <img src="Data_Driven.png" alt="Data-driven Learning Process" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="5">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>AI चा खरा इंधन: 'डेटा' (Data)</h2>
+                        <p><strong>डेटा म्हणजे काय?</strong> कोणतीही माहिती जी कॉम्प्युटर समजू शकतो. या माहितीचा अभ्यास करूनच AI स्वतःला अधिक हुशार बनवत जाते.</p>
+                        <h3>डेटाचे दैनंदिन प्रकार:</h3>
+                        <ul>
+                            <li>पाहण्यासारखी माहिती: फोटो, व्हिडिओ आणि डिजिटल इमेजेस 📸</li>
+                            <li>वाचण्यासारखी माहिती: मेसेज, टिप्पण्या (Comments) आणि ऑफिसचे ईमेल्स ✉</li>
+                            <li>आकडेवारी: एक्सेल शीट्स, परफॉर्मन्स चार्ट्स आणि आर्थिक टेबल 📊</li>
+                            <li>ऐकण्यासारखी माहिती: आवाजाचे रेकॉर्डिंग आणि ग्राहकांचे कॉल फाईल्स 🎤</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Data_Streams.png" alt="Different Types of Data" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="5">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>AI कसे ओळखते: मांजर की कुत्रा?</h2>
+                        <p>कॉम्प्युटरला कोणतेही कडक नियम न सांगता वो स्वतःहून फोटो कसा ओळखतो ते पाहूया:</p>
+                        <ul>
+                            <li><strong>पायरी १:</strong> आपण AI सिस्टीमला मांजर आणि कुत्र्यांचे हजारो वेगवेगळे फोटो दाखवतो.</li>
+                            <li><strong>पायरी २:</strong> सिस्टीम त्या फोटोंमधील बारीक पिक्सल्स, कानाचा आकार आणि डोळ्यांची ठेवण तपासून पाहते.</li>
+                            <li><strong>पायरी ३:</strong> या अभ्यासाच्या जोरावर, जेव्हा आपण एखादा नवीन फोटो दाखवतो, तेव्हा ती सिस्टीम अचूकपणे सांगते की तो कुत्रा आहे की मांजर.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Pattern.png" alt="Pattern Recognition" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="5">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>ऑटोमेशन (Automation) आणि AI मधील फरक</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ऑटोमेशन (ठरलेले नियम)</th>
+                                    <th>AI (सतत नवीन शिकणे)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>फक्त आधीपासून ठरवून दिलेल्या नियमांवर चालते. यात बदल होत नाही.</td>
+                                    <td>माहितीचा अभ्यास करून स्वतःमध्ये सतत सुधारणा करत राहते.</td>
+                                </tr>
+                                <tr>
+                                    <td>प्रत्येक वेळी अगदी सारखेच आणि यांत्रिक उत्तर देते.</td>
+                                    <td>परिस्थिती आणि नवीन डेटा पाहून आपले उत्तर बदलू शकते.</td>
+                                </tr>
+                                <tr>
+                                    <td><em>उदाहरण:</em> साधा कॅल्क्युलेटर.</td>
+                                    <td><em>उदाहरण:</em> ट्रॅफिकनुसार रस्ता बदलणारे गुगल मॅप्स.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="split-media">
+                        <img src="System.png" alt="System Differences" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="5">
+                <h2>AI विरुद्ध मानवी विचार</h2>
+                <p> आपल्याला हे समजले पाहिजे की AI माणसाची जागा घेऊ शकत नाही, तर ते माणसाला मदत करण्यासाठी आहे:</p>
+                <ul>
+                    <li><strong>आर्टिफिशियल इंटेलिजन्स (AI):</strong> प्रचंड वेगाने काम करणे, लाखो फाईल्स एका सेकंदात तपासणे आणि थकवा किंवा पूर्वग्रह न बाळगता आकडेमोड करणे यात सर्वोत्तम आहे.</li>
+                    <li><strong>मानवी बुद्धिमत्ता (माणूस):</strong> कल्पकता, भावना, आपुलकी, परिस्थितीचे गांभीर्य ओळखणे आणि योग्य-अयोग्याची जाण असणे या गुणांमध्ये सर्वोत्तम आहे.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="5">
+                <h2>AI चे प्रकार (सोप्या भाषेत)</h2>
+                <ul>
+                    <li><strong>नॅरो एआय (Narrow AI - आजचे वास्तव):</strong> असे सॉफ्टवेअर्स जे केवळ एकाच ठराविककामात अत्यंत हुशार असतात.
+                        <ul>
+                            <li><em>उदाहरणे:</em> गुगल मॅप्स, चेहऱ्यावरून phone अनलॉक होणे, किंवा भाषेचा अनुवाद करणारे सॉफ्टवेअर.</li>
+                        </ul>
+                    </li>
+                    <li><strong>जनरल एआय (General AI - फक्त एक कल्पना):</strong> कॉम्प्युटर माणसासारखाच अष्टपैलू होऊन स्वतःच्या बुद्धीने सर्व प्रकारची कामे करू शकणे.
+                        <ul>
+                            <li><em>आजची परिस्थिति:</em> हे तंत्रज्ञान सध्या जगात कुठेही अस्तित्वात नाही.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="5">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>प्रॅक्टिकल उदाहरण १: गुगल मॅप्स कसे चालते?</h2>
+                        <p>शहरातील एवढ्या गर्दीत गुगल मॅप्स आपल्याला पोहोचण्याची अगदी अचूक वेळ कशी सांगू शकते?</p>
+                        <ul>
+                            <li>त्या रस्त्यावरून जाणाऱ्या हजारो लोकांच्या मोबाईलमधील लाईव्ह स्पीडचा डेटा गुगल गोळा करत असते.</li>
+                            <li>या लाईव्ह डेटाची तुलना जुन्या दिवसांतील ट्रॅफिकच्या रेकॉर्डसोबत केली जाते.</li>
+                            <li>पुढील रस्त्यावर जाम असल्यास ते आपल्याला आधीच सूचित करून दुसरा मोकळा रस्ता दाखवते.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image002.png" alt="Live Traffic Prediction" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="5">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>प्रॅक्टिकल उदाहरण २: युट्यूब आणि नेटफ्लिक्स</h2>
+                        <p>माझ्या मोबाईलमधील युट्यूब स्क्रीन आणि तुमच्या मोबाईलमधील स्क्रीन वेगळी का दिसते?</p>
+                        <ul>
+                            <li>तुम्ही कोणत्या व्हिडिओवर क्लिक केले, कोणता व्हिडिओ पूर्ण पाहिला आणि कोणता सोडून दिला, याची नोंद सिस्टीम ठेवत असते.</li>
+                            <li>तुमच्यासारखीच आवड असणारे जगातले इतर लोग काय पाहत आहेत, याचाही अभ्यास केला जातो.</li>
+                            <li>त्यावरून फक्त आणि फक्त तुमच्या आवडीचे व्हिडिओ तुमच्या स्क्रीनवर आणले जातात.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image004.png" alt="Personal Recommendations" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="5">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>प्रॅक्टिकल उदाहरण ३: आपल्या हातातील स्मार्टफोन</h2>
+                        <p>तुम्हाचा रोजचा मोबाईल फोन अनेक कामांसाठी अंतर्गत AI का वापर करत असतो:</p>
+                        <ul>
+                            <li><strong>फेस अनलॉक:</strong> सेकंदाच्या भागामध्ये तुमच्या चेहऱ्याचे बिंदू तपासून लॉक उघडतो.</li>
+                            <li><strong>स्मार्ट कॅमेरा:</strong> तुम्ही झाडाचा फोटो काढत आहात की माणसाचा, हे ओळखून रंग आणि प्रकाश आपोआप चांगला करतो.</li>
+                            <li><strong>प्रेडिक्टिव्ह कीबोर्ड:</strong> तुम्ही पुढचा शब्द काय टाईप करणार आहात, याचा अंदाज लावून तो शब्द आधीच सुचवतो.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image006.png" alt="Smartphone AI Features" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="5">
+                <h2>एक छोटा आणि गमतीशीर प्रश्न!</h2>
+                <p>खालीलपैकी कोणती गोष्ट केवळ 'ठरलेले नियम' आहे आणि कोणती 'AI' आहे? अंदाज लावा आणि क्लिक करा:</p>
+                <div class="quiz-option" onclick="alert('बरोबर ओळखलंत! एक्सेल शीट किंवा कॅल्क्युलेटर फक्त आपण दिलेल्या सूत्रांनुसार बेरीज करतो, तो स्वतःहून काही नवीन शिकत नाही.')">१. कॅल्क्युलेटरने आकड्यांची बेरीज करणे.</div>
+                <div class="quiz-option" onclick="alert('अगदी बरोबर! लाईव्ह डेटा पाहून रस्ता बदलणे हे AI चे काम आहे.')">२. पुढे अपघात झाल्यामुळे मॅपने रस्ता बदलून देणे.</div>
+                <div class="quiz-option" onclick="alert('अचूक! तुमची जुनी आवड पाहून गाणी सुचवणे हे AI चे उत्तम उदाहरण आहे.')">३. तुमच्या आवडीनुसार गाण्यांची प्लेलिस्ट आपोआप तयार होणे.</div>
+            </div>
+
+            <div class="slide" data-section="5">
+                <h2>या भागातून आपण काय शिकलो?</h2>
+                <ul>
+                    <li>AI हे जुन्या डेटा मधील पॅटर्न्स आणि आकडेवारी समजून काम करते.</li>
+                    <li>सिस्टीममध्ये जेवढा जास्त आणि चांगला डेटा टाकला जाईल, तेवढी त्याची अचूकता वाढते.</li>
+                </ul>
+            </div>
+
+            <!-- SECTION 3 -->
+            <div class="slide" data-section="16">
+                <h2>विभाग ३: आपल्या आजूबाजूचे AI</h2>
+                <p>आपल्या नकळत रोजच्या जीवनात आणि विविध क्षेत्रांत हे तंत्रज्ञान कशा प्रकारे काम करत आहे, ते आपण सोप्या उदाहरणांसह पाहूया.</p>
+            </div>
+
+            <div class="slide" data-section="16">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>AI सोबत आपला संपूर्ण दिवस</h2>
+                        <ul>
+                            <li>🌅 <strong>सकाळ:</strong> मोबाईल उघडल्याबरोबर महत्त्वाचे ईमेल्स आणि बातम्या व्यवस्थित सॉर्ट केलेल्या मिळतात.</li>
+                            <li>🚗 <strong>ऑफिसचा प्रवास:</strong> रस्ते शोधण्यासाठी गुगल मॅप्स मदत करते आणि कॅब सहज उपलब्ध होतात.</li>
+                            <li>💼 <strong>ऑफिसमधील काम:</strong> आपण टाईप केलेल्या ड्राफ्ट मधील चुका आपोआप दुरुस्त होतात.</li>
+                            <li>🌙 <strong>संध्याकाळ:</strong> मनोरंजन आणि बँक खात्यातून होणारे व्यवहार सुरक्षित ठेवण्यासाठी सुरक्षा सिस्टीम कार्यरत असते.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image007.png" alt="Communication Image 1" class="slide-image">
+                        <img src="Image008.png" alt="Communication Image 2" class="slide-image">
+                        <img src="Image009.png" alt="Communication Image 3" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="16">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>प्रवास आणि वाहतूक व्यवस्था</h2>
+                        <ul>
+                            <li><strong>गर्दी टाळणे:</strong> रिअल-टाईम माहिती घेऊन वाहतूक कोंडी नसलेला रस्ता दाखवला जातो.</li>
+                            <li><strong>डायनॅमिक प्राईसिंग:</strong> पाऊस पडत असताना किंवा गर्दीच्या वेळी गाड्यांचे भाडे मागणीनुसार ठरवले जाते.</li>
+                            <li><strong>पार्सलचा अंदाज:</strong> कुरिअर वेळेत पोहोचतील की नाही, याचा अंदाज जुन्या नोंदणीवरून लावला जातो.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image010.png" alt="Route Planning Image 1" class="slide-image">
+                        <img src="Image011.png" alt="Route Planning Image 2" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="16">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>ऑनलाईन खरेदी आणि ई-कॉमर्स</h2>
+                        <ul>
+                            <li><strong>सुचवलेल्या वस्तू:</strong> शर्ट पाहिला असल्यास त्याला मॅचिंग असणारी पॅन्ट किंवा घड्याळ सिस्टीम सुचवते.</li>
+                            <li><strong>खास ऑफर्स:</strong> कार्टमध्ये ठेवलेल्या वस्तूंवर ग्राहकांना आकर्षित करण्यासाठी विशेष सवलत दिली जाते.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image012.png" alt="Shopping Experience" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="16">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>बँकिंग आणि खात्यांची सुरक्षा</h2>
+                        <ul>
+                            <li><strong>धोका ओळखणे (Fraud Detection):</strong> संशयास्पद व्यवहार झाल्यास सिस्टीम व्यवहार तात्काळ रोखते.</li>
+                            <li><strong>ऑटोमॅटेड मदत:</strong> बँकेचे चॅटबॉट्स चेकबुक मागवणे किंवा बॅलन्स तपासणे सोपे करतात.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image013.png" alt="Banking Security Image 1" class="slide-image">
+                        <img src="Image014.png" alt="Banking Security Image 2" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="16">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>सोशल मीडिया प्लॅटफॉर्म्स</h2>
+                        <ul>
+                            <li><strong>स्क्रीनवर खिळवून ठेवणे:</strong> फेसबुक किंवा इंस्टाग्राम तुम्हाला अशाच पोस्ट दाखवते ज्या तुम्ही जास्त वेळ थांबून पाहता.</li>
+                            <li><strong>योग्य जाहिराती:</strong> तुमच्या वयानुसार आणि आवडीनुसार व्यावसायिक जाहिराती दाखवल्या जातात.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="SM_01.png" alt="Social Media Optimization Image 1" class="slide-image">
+                        <img src="SM_02.png" alt="Social Media Optimization Image 2" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="16">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>ऑफिसमधील उत्पादकता वाढवणे</h2>
+                        <ul>
+                            <li><strong>रेडीमेड टेम्पलेट्स:</strong> विषयाचे नाव सांगितले की कॉम्प्युटर पूर्ण पत्रक तयार करून देतो.</li>
+                            <li><strong>माहितीचे विश्लेषण:</strong> मोठ्या टेबलमधून मुख्य मुद्दे ओळखून त्याचा सुंदर चार्ट मिळतो.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image015.png" alt="Office Productivity Image 1" class="slide-image">
+                        <img src="Image016.png" alt="Office Productivity Image 2" class="slide-image">
+                        <img src="Image017.png" alt="Office Productivity Image 3" class="slide-image">
+                        <img src="Image018.png" alt="Office Productivity Image 4" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="16">
+                <h2>HR (मानव संसाधन) आणि प्रशासकीय कामे</h2>
+                <ul>
+                    <li><strong>बायोडाटा निवडणे:</strong> उमेदवारांचे अर्ज फिल्टर करून हव्या असलेल्या अनुभवाचे उमेदवार शोधणे.</li>
+                    <li><strong>इंटरव्ह्यूचे नियोजन:</strong> वेगवेगळ्या विभागांच्या अधिकाऱ्यांची वेळ तपासून वेळापत्रक ठरवणे.</li>
+                    <li><strong>कंपनीच्या नियमांची माहिती:</strong> नेहमीच्या प्रश्नांची उत्तरे चॅटद्वारे त्वरित देणे.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="16">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>मनोरंजन आणि संगीत क्षेत्र</h2>
+                        <ul>
+                            <li><strong>गाण्यांची निवड:</strong> तुमचा मूड किंवा प्रवासाच्या वेळेनुसार आपोआप गाणी प्ले केली जातात.</li>
+                            <li><strong>पुढचा व्हिडिओ:</strong> तुमच्या आवडीचा पुढचा माहितीपट रांगेत लावला जातो.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Ent01.png" alt="Entertainment Image 1" class="slide-image">
+                        <img src="Ent02.png" alt="Entertainment Image 2" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="16">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>वैद्यकीय क्षेत्राला मदत</h2>
+                        <ul>
+                            <li><strong>एक्स-रे आणि स्कॅनिंग:</strong> रिपोर्ट्स मधील बारीक त्रुटी हायलाईट करून डॉक्टरांना अचूक निदानासाठी मदत करणे.</li>
+                            <li><strong>स्मार्ट घड्याळे:</strong> हातातील डिजिटल घड्याळ हृदयाचे ठोके तपासून अडचण आल्यास अलार्म वाजवते.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image019.png" alt="Medical Screening Image 1" class="slide-image">
+                        <img src="Image020.png" alt="Medical Screening Image 2" class="slide-image">
+                        <img src="Image021.png" alt="Medical Screening Image 3" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="16">
+                <h2>विचार करा आणि सांगा! (आपला अनुभव)</h2>
+                <p>चला, आपण आपल्या रोजच्या अनुभवांवरून दोन गोष्टी शोधूया:</p>
+                <ul>
+                    <li>आज सकाळी ऑफिसला येण्यापूर्वी तुम्ही तुमच्या मोबाईलमध्ये कोणती टूल्स वापरली?</li>
+                    <li>तुमच्या विभागातील असे कोणते काम आहे, जे AI च्या मदतीने सोपे होऊ शकते?</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="16">
+                <h2>या भागाचा गोषवारा</h2>
+                <ul>
+                    <li>AI हे संवाद, सुरक्षा, वाहतूक आणि ऑफिसच्या कामात मोठ्या प्रमाणावर वापरले जात आहे.</li>
+                    <li>याचा मुख्य उद्देश गुंतागुंतीची माहिती सोपी करून माणसाचा वेळ वाचवणे हाच आहे.</li>
+                </ul>
+            </div>
+
+            <!-- SECTION 4 -->
+            <div class="slide" data-section="28">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>विभाग ४: जनरेटिव्ह AI (Generative AI) म्हणजे काय?</h2>
+                        <p><strong>सोपी व्याख्या:</strong> जनरेटिव्ह AI हे फक्त माहिती गोळा करत नाही, तर आपण दिलेल्या सूचनेनुसार अगदी नवीन आणि फ्रेश मसुदा किंवा चित्रे स्वतःहून तयार करू शकते!</p>
+                        <ul>
+                            <li>ऑफिसचे संपूर्ण पत्र अगदी शून्यापासून लिहून देतो.</li>
+                            <li>कार्यक्रमासाठी लागणारे बॅनर्स आणि संकल्पना चित्रे तयार करतो.</li>
+                            <li>एक्सेलचे मोठे फॉर्म्युले किंवा कोडिंगचे नियम चुटकीसरशी लिहून देतो.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image022.png" alt="Generative AI Engine 1" class="slide-image">
+                        <img src="Image023.png" alt="Generative AI Engine 2" class="slide-image">
+                        <img src="Image024.png" alt="Generative AI Engine 3" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="28">
+                <h2>जुने AI विरुद्ध जनरेटिव्ह AI</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>जुने AI (फक्त विश्लेषण करणे)</th>
+                            <th>जनरेटिव्ह AI (नवीन निर्मिती करणे)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>फक्त फाईल्स तपासणे किंवा वर्गीकरण करणे एवढेच याचे काम होते.</td>
+                            <td>स्वतःच्या बुद्धीने नवीन मसुदा किंवा डिझाईन्स बनवून देते.</td>
+                        </tr>
+                        <tr>
+                            <td><em>उदाहरण:</em> एखादा ईमेल स्पॅम आहे की नाही ओळखणे.</td>
+                            <td><em>उदाहरण:</em> विस्कळीत मुद्द्यांवरून व्यावसायिक उत्तर तयार करून देणे.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="slide" data-section="28">
+                <h2>हे टूल्स नक्की काय काय करू शकतात?</h2>
+                <ul>
+                    <li>मसुदा तयार करणे: ऑफिसचे ईमेल्स, ट्रेनिंगचे अजेंडे आणि परिपत्रके लिहिणे.</li>
+                    <li>मोठ्या फाईल्स छोट्या करणे: सरकारी नियम किंवा कठीण कागदपत्रे वाचून त्याचे मुख्य मुद्दे सांगणे.</li>
+                    <li>चित्र आणि डिझाईन्स बनवणे: ट्रेनिंगसाठी लागणारी पोस्टर्स तयार करणे.</li>
+                    <li>कल्पना सुचवणे: ऑफिसमधील कार्यक्रमांचे आयोजन किंवा उपक्रमांसाठी आयडिया देणे.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="28">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>उदाहरण १: स्वतःहून पत्र लिहिणे</h2>
+                        <p>हे टूल आपल्या भाषेचे नियम समजून घेऊन काही सेकंदात पूर्ण पत्र कसे तयार करते पहा:</p>
+                        <ul>
+                            <li>**तुमची साधी सूचना:** *"उद्यासाठी आजारपणाची सुट्टी हवी आहे, मॅनेजरसाठी ईमेल लिहून दे."*</li>
+                            <li>**AI चे उत्तर:** ते स्वतःहून विषयाची ओळ, आदरयुक्त शब्द आणि नावे भरण्यासाठी रिकामी जागा ठेवून ईमेल तयार करते.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image025.png" alt="Text Generation 1" class="slide-image">
+                        <img src="Text01.png" alt="Text Generation 2" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="28">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>उदाहरण २: शब्दांवरून चित्र बनवणे</h2>
+                        <p>तुम्ही मनात विचार केलेली कल्पना फक्त शब्दांत लिहिली, की कॉम्प्युटर त्याचे सुंदर चित्रात रूपांतर करतो:</p>
+                        <ul>
+                            <li>**तुमची सूचना:** *"पर्यावरणपूरक सुंदर इमारत, गच्चीवर झाडे आणि सायंकाळची वेळ."*</li>
+                            <li>**AI चे उत्तर:** कॉम्प्युटर इंटरनेटवरील लाखो चित्रांचा अभ्यास करून डिजिटल चित्र सेकंदात तयार करतो.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Digital01.png" alt="Digital Image Creation" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="28">
+                <h2>उदाहरण ३: कठीण आणि मोठी कागदपत्रे समजून घेणे</h2>
+                <p>मोठ्या फाईल्स वाचण्यात जाणारा आपला वेळ वाचवण्यासाठी हे सर्वात उत्तम साधन आहे:</p>
+                <ul>
+                    <li>**समस्या:** फॅक्टरीच्या नवीन नियमांचे ३० पानांचे कठीण पुस्तक वाचायचे आहे.</li>
+                    <li>**स्मार्ट उपाय:** तो मजकूर कॉपी करून AI ला मुख्य मुद्दे आणि कायदेशीर परिणाम विचारणे.</li>
+                    <li>**फायदा:** तासनतास वाचण्याचे कष्ट वाचतात आणि मुख्य मुद्दे लगेच समजतात.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="28">
+                <h2>गुगल सर्च (Google) आणि AI असिस्टंटमधील फरक</h2>
+                <ul>
+                    <li>**पारंपारिक गुगल सर्च:** तुम्ही एखादा शब्द टाकता &rarr; गुगल हजारो वेबसाईटच्या लिंक्स देते.</li>
+                    <li>**AI असिस्टंट (चॅटबॉट्स):** तुम्ही थेट प्रश्न विचारता &rarr; ते सर्व माहितीचा अभ्यास करून स्वतःच्या शब्दांत तयार केलेले **एकच अचूक उत्तर** देते.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="28">
+                <h2>आज बाजारात उपलब्ध असलेली प्रसिद्ध टूल्स</h2>
+                <ul>
+                    <li><strong>ChatGPT (OpenAI):</strong> संवाद साधण्यासाठी, पत्रव्यवहार करण्यासाठी अत्यंत लोकप्रिय.</li>
+                    <li><strong>Google Gemini:</strong> इंटरनेटवरील ताज्या घडामोडी शोधण्यासाठी उत्तम.</li>
+                    <li><strong>Microsoft Copilot:</strong> ऑफिसची कामे वेगवान करणारे साधन.</li>
+                    <li><strong>Midjourney / DALL-E:</strong> शब्दांचे वर्णन वाचून उच्च दर्जाची चित्रे बनवणारी टूल्स.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="28">
+                <h2>प्रत्यक्ष प्रात्यक्षिक (Live Demo)</h2>
+                <p>चला, आपण प्रत्यक्ष स्क्रीनवर पाहूया की हे टूल आपले रोजचे ऑफिसचे काम किती वेगाने करू शकते:</p>
+                <ul>
+                    <li>फॅक्टरीमध्ये पुढील आठवड्यात वीज बंद राहणार आहे, त्याबद्दल नोटीस तयार करणे.</li>
+                    <li>मिटिंगमध्ये लिहून ठेवलेल्या नोट्सचे रूपांतर स्पष्ट टेबलमध्ये करणे.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="28">
+                <h2>चला, आपण एकत्र एक प्रॉम्ट तयार करूया!</h2>
+                <p>आपण सर्वजण मिळून कॉम्प्युटरला एक काम सांगूया आणि पाहूया ते कसे उत्तर देते:</p>
+                <ul>
+                    <li>आपण एक विषय निवडू आणि AI ला त्यावर एक पत्र लिहायला सांगू.</li>
+                    <li>ते पत्र वाचून त्यातील भाषा किंवा काही मुद्दे बदलण्यासाठी आपण त्याला पुन्हा सूचना देऊ.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="28">
+                <h2>या नवीन तंत्रज्ञानामुळे कामात काय बदल होईल?</h2>
+                <ul>
+                    <li>**कोरी स्क्रीन पाहण्याची भीती संपते:** पत्र लिहिताना सुरुवातीचे शब्द कॉम्प्युटर सुचवतो.</li>
+                    <li>**प्रत्येकाला तांत्रिक मदत:** कोडिंग न शिकताही आपण एक्सेलचे अवघड फॉर्म्युले तयार करू शकतो.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="28">
+                <h2>एक अत्यंत महत्त्वाची सूचना: AI च्या मर्यादा</h2>
+                <p>हे टूल्स खूप हुशार असले तरी ते शेवटी माणूस नाहीत, त्यामुळे त्यांच्याकडून चुका होऊ शकतात:</p>
+                <ul>
+                    <li>**अशक्य चुका (Hallucinations):** कधीकधी हे टूल्स चुकीची आकडेवारी खऱ्यासारखी सांगतात.</li>
+                    <li>**कंपनीच्या अंतर्गत गोष्टींची माहिती नसणे:** जोपर्यंत तुम्ही सांगत नाही, तोपर्यंत तुमच्या कंपनीचे नियम त्याला माहित नसतात.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="28">
+                <h2>या भागाचा गोषवारा</h2>
+                <ul>
+                    <li>जनरेटिव्ह AI आपल्याला हवी असलेली माहिती, मसुदा आणि डिझाईन तयार करून देते.</li>
+                    <li>अंतिम तपासणी आणि सत्यता पडताळणे ही नेहमीच आपली म्हणजेच माणसाची जबाबदारी असेल.</li>
+                </ul>
+            </div>
+
+            <!-- SECTION 5 -->
+            <div class="slide" data-section="41">
+                <h2>विभाग ५: रोजच्या कामात AI चा वापर</h2>
+                <p>आता आपण सिद्धांताकडून प्रत्यक्ष कृतीकडे वळूया. इंटरनेटवर मोफत उपलब्ध असलेल्या टूल्सचा वापर करून आपण आपले काम कसे सोपे करू शकतो, ते पाहूया.</p>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>AI वापरण्याची ४-पायऱ्यांची सोपी पद्धत</h2>
+                <p>कॉम्प्युटरकडून काम करून घेणे एका साध्या संवादासारखे आहे:</p>
+                <ul>
+                    <li><strong>१. टूल सुरू करा:</strong> ChatGPT किंवा Gemini सारखे मोफत टूल ओपन करा.</li>
+                    <li><strong>२. स्पष्ट सूचना द्या (Prompt):</strong> काय काम करून घ्यायचे आहे, ते सोप्या शब्दांत टाईप करा.</li>
+                    <li><strong>३. उत्तर तपासा:</strong> कॉम्प्युटरने लिहिलेला मसुदा काळजीपूर्वक वाचा.</li>
+                    <li><strong>४. बदल सुचवा (Refine):</strong> उत्तर बदलण्यासाठी किंवा लहान करण्यासाठी पुन्हा मेसेज करा.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="41">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>वापर १: ऑफिसचे ईमेल्स झटपट लिहिणे</h2>
+                        <p>एखाद्या महत्त्वाच्या विषयावर ईमेल लिहिताना विचारात वेळ घालवू नका:</p>
+                        <ul>
+                            <li>तळमजल्यावरील मुख्य मुद्दे जसे सुचतील तसे घाईघाईत टाईप करा.</li>
+                            <li>ते मुद्दे कॉपी करून AI ला सांगा की हे पत्र कोणाला पाठवायचे आहे.</li>
+                            <li>टूल त्या विस्कळीत मुद्यांचे रूपांतर व्यावसायिक पत्रात करेल.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image016.png" alt="Email Generation" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>ईमेल लिहिण्याचा एक छोटा सराव</h2>
+                <p>समजा आपल्याला एका सप्लायरकडून नवीन साहित्याचे दरपत्रक मागवायचे आहे:</p>
+                <ul>
+                    <li>**आपली सूचना:** टूलला सांगा की आपल्याला कोणत्या साहित्याचे दर हवे आहेत.</li>
+                    <li>**फायदा:** टूल नम्र आणि स्पष्ट भाषेतील ईमेल तयार करेल.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>वापर २: मोठे रिपोर्ट किंवा नियमांचे पुस्तक थोडक्यात समजून घेणे</h2>
+                <p>जेव्हा वेळ कमी असतो आणि वाचनाचे काम जास्त असते, तेव्हा या पद्धती वापरा:</p>
+                <ul>
+                    <li>*"हा फॅक्टरी सेफ्टीचा मजकूर वाच आणि कामगारांना समजेल अशा ३ सोप्या ओळींमध्ये नियम सांग."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="41">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>वापर ३: नवीन कल्पना शोधणे (Brainstorming)</h2>
+                        <p>ऑफिसमध्ये एखादा कार्यक्रम किंवा उपक्रम राबवताना कल्पना सुचत नसतील, तर AI ला भागीदार बनवा:</p>
+                        <ul>
+                            <li>टूलला सांगा की कार्यक्रमाचा उद्देश काय आहे.</li>
+                            <li>ते तुम्हाला वेगवेगळ्या कल्पनांची याधी देईल, ज्यातून तुम्ही योग्य ती निवड करू शकता.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Brain01.png" alt="Initiative Ideas" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>आयडिया शोधण्याचा सराव</h2>
+                <p>समजा आपल्या फॅक्टरीमध्ये आपल्याला 'सुरक्षा सप्ताह' (Safety Week) साजरा करायचा आहे:</p>
+                <ul>
+                    <li>**आपली सूचना:** *"कामगारांसाठी ५ सोपे आणि कमी खर्चाचे उपक्रम सुचव."*</li>
+                </ul>
+            </div>
+
+            
+	    <div class="slide" data-section="41">
+		<h2>आयडिया शोधण्याचा सराव</h2>
+
+    		<img src="Scene001.png" 
+         	style="width:80%; display:block; margin:20px auto;">
+
+		</div>
+
+		
+		<div class="slide" data-section="41">
+                <h2>वापर ४: जुन्या मसुद्याला सुंदर रूप देणे</h2>
+                <p>आपण घाईत लिहिलेले साधे वाक्य वरिष्ठ अधिकाऱ्यांकडे पाठवण्यापूर्वी कसे सुधारता येते पहा:</p>
+                <ul>
+                    <li>**तुमचे मूळ वाक्य:** *"सगळ्यांना सांगा पुढच्या महिन्यापासून शिफ्टची वेळ बदलणार आहे."*</li>
+                    <li>**AI ला दिलेली सूचना:** *"या वाक्याचे रूपांतर अधिकृत आणि आदरयुक्त परिपत्रकात कर."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>वापर ५: भाषांतर आणि सोपी भाषा करणे</h2>
+                <p>वेगवेगळ्या प्रांतातील कामगारांशी संवाद साधताना भाषेची अडचण आता दूर होईल:</p>
+                <ul>
+                    <li>इंग्रजी सूचनांचे मराठी किंवा हिंदीत अचूक आणि सोपे भाषांतर करून मिळते.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>वापर ६: एक्सेलचे फॉर्म्युले तयार करणे</h2>
+                <p>एक्सेलमध्ये काम करताना एखादे सूत्र आठवत नसेल तर मॅन्युअल शोधण्याची गरज नाही:</p>
+                <ul>
+                    <li>**अशी सूचना द्या:** *"मला एक्सेलचा असा फॉर्म्युला लिहून दे जो कॉलम B आणि कॉलम C मधील दिवसांचे अंतर मोजेल."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>वापर ७: वैयक्तिक आयुष्यातील मदत</h2>
+                <p>ऑफिसच्या कामाव्यतिरिक्त तुमच्या खाजगी आयुष्यातही हे टूल्स खूप उपयोगी पडतात:</p>
+                <ul>
+                    <li>कुटुंबासोबत फिरायला जाण्यासाठी दिवसांचे संपूर्ण नियोजन तयार करणे.</li>
+                    <li>मित्रांना पाठवण्यासाठी शुभेच्छा संदेश तयार करणे.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>चांगला प्रश्न = उत्तम उत्तर!</h2>
+                <p>कॉम्प्युटरला तुम्ही जेवढी सविस्तर माहिती द्याल, तेवढे त्याचे उत्तर अचूक असेल:</p>
+                <ul>
+                    <li>❌ <strong>अपूर्ण सूचना:</strong> *"सुट्टीचा अर्ज लिहून दे."*</li>
+                    <li>✔ <strong>उत्तम सूचना:</strong> *"वैद्यकीय आणीबाणी आल्यामुळे ३ दिवसांची रजा हवी आहे, ईमेलवर उपलब्ध राहीन असा व्यावसायिक ईमेल लिहून दे."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>सूचना सुधारण्याचा सराव</h2>
+                <p>चला, एका साध्या सूचनेला आपण अधिक प्रभावी बनवूया:</p>
+                <ul>
+                    <li>**साधी सूचना:** *"फॅक्टरीच्या सुरक्षेची नोटीस लिही."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>नवशिक्यांकडून होणाऱ्या ३ मुख्य चुका</h2>
+                <ul>
+                    <li>फक्त दोन शब्दांत काम सांगणे आणि खूप मोठ्या पॉलिसीची अपेक्षा करणे.</li>
+                    <li>डोळे मिटून विश्वास ठेवणे आणि मसुदा न वाचता पुढे पाठवणे.</li>
+                    <li>गोपनीय माहिती जसे की बँक डिटेल्स, पगार पब्लिक टूल्समध्ये पेस्ट करणे. **(हे कधीही करू नका!)**</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>यशस्वी वापराचा कानमंत्र</h2>
+                <blockquote>AI असिस्टंटला तुमच्या ऑफिसमधील एका नवीन आणि हुशार असिस्टंटसारखे समजा. त्याच्याकडून उत्तम काम करून घेण्यासाठी तुम्हाला त्याला पार्श्वभूमी सांगावी लागेल.</blockquote>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>या भागाचा गोषवारा</h2>
+                <ul>
+                    <li>AI टूल्सच्या मदतीने ईमेल्स लिहिणे आणि एक्सेलचे फॉर्म्युले तयार करणे अत्यंत सोपे झाले आहे.</li>
+                    <li>तुमच्या सूचनेमधील स्पष्टतेवरच उत्तराचा दर्जा अवलंबून असतो.</li>
+                </ul>
+            </div>
+
+            <!-- SECTION 6 -->
+            <div class="slide" data-section="58">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>विभाग ६: प्रॉम्टिंगची जुजबी माहिती (Mastering Prompts)</h2>
+                        <p><strong>प्रॉम्ट (Prompt) म्हणजे काय?</strong> सोप्या भाषेत, कॉम्प्युटरकडून काम करून घेण्यासाठी आपण चॅट बॉक्समध्ये जी सूचना टाईप करतो, त्याला 'प्रॉम्ट' म्हणतात.</p>
+                        <ul>
+                            <li>प्रॉम्टिंग ही AI शी संवाद साधण्याची कला आहे.</li>
+                            <li>तुमचे शब्दच कॉम्प्युटरला सांगतात की उत्तराचा टोन कसा असावा आणि फॉरमॅट कसा असावा.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Prompt01.png" alt="Accurate Instruction Giving" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="58">
+                <h2>स्पष्ट प्रॉम्ट का महत्त्वाचा आहे?</h2>
+                <p>कॉम्प्युटर आपल्या मनातले विचार ओळखू शकत नाही. त्याला आपल्या कंपनीचा इतिहास माहित नसतो. जर आपली सूचना मोघम असेल, तर त्याचे उत्तरही निरुपयोगी असेल. म्हणूनच, योग्य आणि नेमके शब्द वापरणे गरजेचे आहे.</p>
+            </div>
+
+            <div class="slide" data-section="58">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>केस स्टडी: चुकीचा प्रॉम्ट विरुद्ध योग्य प्रॉम्ट</h2>
+                        <ul>
+                            <li>**चुकीची पद्धत:** *"एक नोटीस लिही."* असे लिहिल्याने टूल एक लांबलचक आणि सामान्य निबंध लिहून देईल.</li>
+                            <li>**योग्य पद्धत:** संपूर्ण संदर्भ आणि रचना स्पष्ट लिहिल्यामुळे पहिल्याच फटक्यात कामाचा मसुदा तयार होतो.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image026.png" alt="Prompt Comparison 1" class="slide-image">
+                        <img src="Image027.png" alt="Prompt Comparison 2" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="58">
+                <h2>उत्तम प्रॉम्ट लिहिण्याचे ४ सुवर्णनियम</h2>
+                <ul>
+                    <li>🎯 <strong>१. स्पष्टता (Clear):</strong> सरळ आणि साधे शब्द वापरा.</li>
+                    <li>📊 <strong>२. नेमकेपणा (Specific):</strong> शब्दांची मर्यादा किंवा आकडे स्पष्ट सांगा.</li>
+                    <li>🏢 <strong>३. संदर्भ (Context):</strong> पार्श्वभूमी सांगा (उदा. हे पत्र कोणासाठी आहे).</li>
+                    <li>📋 <strong>४. फॉरमॅट (Format):</strong> उत्तर कसे हवे आहे ते सांगा (उदा. बुलेट पॉईंट्स, टेबल).</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="58">
+                <h2>नियम १: स्पष्टता (Be Clear)</h2>
+                <p>गोलगोल बोलण्याऐवजी कॉम्प्युटरला थेट सांगा की त्याला नक्की काय करायचे आहे:</p>
+                <ul>
+                    <li>❌ <strong>अस्पष्ट:</strong> *"ऑफिस सेफ्टीबद्दल आमची टीम काय काम करते त्याबद्दल काहीतरी लिही."*</li>
+                    <li>✔ <strong>स्पष्ट:</strong> *"फॅक्टरीच्या सुरक्षा नियमांचे पालन करण्यासाठी HR विभागाच्या ५ मुख्य जबाबदाऱ्यांची यादी तयार कर."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="58">
+                <h2>नियम २: नेमकेपणा (Be Specific)</h2>
+                <p>उत्तराला भरकटण्यापासून रोखण्यासाठी त्याला मर्यादा आखून द्या:</p>
+                <ul>
+                    <li>❌ <strong>मोघम:</strong> *"ऑफिसच्या कार्यक्रमासाठी काहीतरी चांगल्या आयडिया दे."*</li>
+                    <li>✔ <strong>नेमके:</strong> *"ऑफिसच्या कॉन्फरन्स रूममध्ये खेळता येतील असे ६ गमतीशीर संघ उपक्रम सुचव."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="58">
+                <h2>नियम ३: संदर्भ देणे (Provide Context)</h2>
+                <p>पार्श्वभूमी समजल्यामुळे AI ला योग्य तो टोन निवडणे सोपे जाते:</p>
+                <ul>
+                    <li>❌ <strong>संदर्भ नसलेले:</strong> *"बायोमॅट्रिक सिस्टीम बंद असण्याबाबत मेसेज लिही."*</li>
+                    <li>✔ <strong>ससंदर्भ:</strong> *"शनिवारी मुख्य बायोमॅट्रिक मशीन दुरुस्तीसाठी बंद राहणार आहे, सर्व सुपरवायझर्सना कामगारांची हजेरी मॅन्युअल रजिस्टरमध्ये नोंदवण्याची आठवण करून देणारा मेसेज लिही."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="58">
+                <h2>नियम ४: फॉरमॅट ठरवणे (Define the Format)</h2>
+                <p>माहिती स्क्रीनवर कशी मांडलेली हवी आहे, हे तुम्ही स्वतः ठरवू शकता:</p>
+                <ul>
+                    <li>❌ <strong>फॉरमॅट नसलेले:</strong> *"नवीन वेतन कायद्यातील मुख्य बदल समजावून सांग."*</li>
+                    <li>✔ <strong>सुंदर फॉरमॅट:</strong> *"नवीन वेतन कायदा २०१९ मुळे झालेले मुख्य बदल एका स्वच्छ टेबलमध्ये दाखव. डाव्या बाजूला 'जुने नियम' आणि उजव्या बाजूला 'नवीन नियम' असावे."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="58">
+                <h2>प्रॉम्ट तयार करण्याचे एक साधे सूत्र (Formula)</h2>
+                <p>नेहमी लक्षात ठेवा, एक उत्तम प्रॉम्ट या चार गोष्टी मिळून बनतो:</p>
+                <p style="font-size: 1.3rem; text-align: center; color: var(--secondary); font-weight: bold; margin: 25px 0;">
+                    मुख्य काम + नेमकी माहिती + योग्य संदर्भ + हवा असलेला फॉरमॅट
+                </p>
+            </div>
+
+            <div class="slide" data-section="58">
+                <h2>रोजच्या कामात वापरता येतील असे रेडीमेड प्रॉम्ट्स</h2>
+                <ul>
+                    <li>*"मी खाली दिलेला ईमेलचा ड्राफ्ट वाच आणि त्याची भाषा अधिक व्यावसायिक बनवून दे."*</li>
+                    <li>*"या परिच्छेदातील माहिती अतिशय सोप्या भाषेत बदल, जेणेकरून कामगाराला ती सहज समजेल."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="58">
+                <h2>प्रॉम्ट सुधारण्याचा प्रत्यक्ष सराव</h2>
+                <p>चला, एका साध्या सूचनेला आपल्या सूत्रात बसवून पाहूया:</p>
+                <ul>
+                    <li>**सुरुवात:** *"एक जॉब डिस्क्रिप्शन (Job Description) लिही."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="58">
+                <h2>प्रगत पद्धत: कॉम्प्युटरला एक 'भूमिका' देणे (Roleplay)</h2>
+                <p>AI ला प्रश्नाचे उत्तर देण्यापूर्वी एखाद्या क्षेत्रातील तज्ज्ञ बनण्याची सूचना दिल्यास उत्तर अधिक दर्जेदार मिळते:</p>
+                <ul>
+                    <li>**प्रॉम्टची पद्धत:** *"तू फॅक्टरी कायद्याचा ३० वर्षांचा अनुभव असलेला तज्ज्ञ वकील आहेस, असे समजून खालील वेअरहाउस सुरक्षेचे नियम तपास."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="58">
+                <h2>उत्तरामध्ये बदल कसे करून घ्यावे?</h2>
+                <p>कॉम्प्युटरने दिलेले पहिले उत्तर अंतिम मानण्याची गरज नाही. तुम्ही त्याच्याशी संवाद सुरू ठेवून बदल करून घेऊ शकता:</p>
+                <ul>
+                    <li>*"हे उत्तर खूप मोठे आहे, याची लांबी अर्धी कर आणि महत्त्वाच्या ओळीच ठेव."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="58">
+                <h2>मोठ्या कामांसाठी 'तुकडे-तुकडे' पद्धत (Multi-Step Strategy)</h2>
+                <p>जेव्हा खूप मोठे धोरण किंवा रिपोर्ट तयार करायचा असतो, तेव्हा सर्व काम एकाच वेळी न सांगता टप्प्याटप्प्याने करून घ्या:</p>
+                <ul>
+                    <li>**पायरी १:** प्रथम AI ला फक्त विषयाची ढोबळ रूपरेषा तयार करायला सांगा.</li>
+                    <li>**पायरी २:** त्या आउटलाईन मधील सर्वात चांगल्या मुद्द्यांची निवड करून त्याला तो मुद्दा सविस्तर लिहिण्यास सांगा.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="58">
+                <h2>३ गोष्टी नेहमी टाळा (Common Pitfalls)</h2>
+                <ul>
+                    <li>खूप मोठे आणि गुंतागुंतीचे परिच्छेद लिहून त्यात अनेक विरोधी सूचना एकत्र देणे.</li>
+                    <li>मसुदा कोणासाठी लिहीत आहोत हे न सांगणे आणि फॉरमॅट स्पष्ट न करणे.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="58">
+                <h2>छोटा प्रॅक्टिकल सराव</h2>
+                <p>साध्या सूत्राचा वापर करून प्रॉम्ट तयार करा:</p>
+                <ul>
+                    <li>कंपनीच्या सर्व कर्मचाऱ्यांना वार्षिक मिटिंगसाठी आमंत्रित करणारे पत्र लिहिण्यासाठी प्रॉम्ट तयार करा.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="58">
+                <h2>ग्रुप ॲक्टिव्हिटी: प्रॉम्टचे युद्ध!</h2>
+                <ul>
+                    <li>आपण दोन गट तयार करू आणि दोन्ही गटांना ऑफिसचे एकच काम दिले जाईल.</li>
+                    <li>दोन्ही गट आपापल्या पद्धतीने वेगळे शब्द वापरून प्रॉम्ट तयार करतील आणि आपण तपासू.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="58">
+                <h2>नेहमी लक्षात ठेवा</h2>
+                <blockquote>तुमच्या सूचनेची स्पष्टता जेवढी जास्त, तेवढे कॉम्प्युटरचे काम दर्जेदार. प्रॉम्ट लिहिणे म्हणजे ऑफिसमधील एखाद्या नवीन सहकाऱ्याला काम समजावून सांगण्याइतकेच सोपे आहे.</blockquote>
+            </div>
+
+            <div class="slide" data-section="58">
+                <h2>या भागाचा गोषवारा</h2>
+                <ul>
+                    <li>प्रॉम्ट म्हणजे कॉम्प्युटरला दिलेली लिखित आज्ञा होय.</li>
+                    <li>आपल्या साध्या सूत्राचा (काम + संदर्भ + फॉरमॅट) वापर केल्यास पहिल्याच वेळी उत्तम उत्तर मिळते.</li>
+                </ul>
+            </div>
+
+            <!-- SECTION 7 -->
+            <div class="slide" data-section="77">
+                <h2>विभाग ७: प्रत्यक्ष सराव सत्र (Hands-on Practice)</h2>
+                <p>आता आपण स्वतः कॉम्प्युटरवर प्रॉम्ट्स टाईप करून सराव करणार आहोत. अजिबात घाबरू नका, चुकले तरी चालेल—आपल्याला फक्त शिकायचे आहे.</p>
+            </div>
+
+            <div class="slide" data-section="77">
+                <h2>सराव कसा करायचा?</h2>
+                <ul>
+                    <li><strong>१. प्रसंग वाचा:</strong> स्लाईडवर दिलेला ऑफिसचा प्रसंग नीट समजून घ्या.</li>
+                    <li><strong>२. प्रॉम्ट तयार करा:</strong> आपल्या सूत्राचा वापर करून चॅट बॉक्समध्ये सूचना टाईप करा.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="77">
+                <h2>ॲक्टिव्हिटी १: व्यावसायिक ईमेल लिहिणे</h2>
+                <p><strong>प्रसंग:</strong> उद्या तुमच्या गाडीचे गॅरेजमध्ये काम काढल्यामुळे तुम्हाला ऑफिसला यायला १ तास उशीर होणार आहे, त्याबाबत ईमेल पाठवायचा आहे.</p>
+            </div>
+
+            <div class="slide" data-section="77">
+                <h2>ॲक्टिव्हिटी १ वर विचार करा</h2>
+                <ul>
+                    <li>कॉम्प्युटरने पहिल्याच प्रयत्नात ईमेलचा फॉरमॅट नीट लिहिला का?</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="77">
+                <h2>ॲक्टिव्हिटी २: कठीण पॉलिसी सोपी करणे</h2>
+                <p><strong>आव्हान:</strong> कंपनीच्या सुरक्षा पुस्तिकेतील एक मोठा आणि कायदेशीर शब्दांचा कठीण परिच्छेद कॉपी करा.</p>
+                <ul>
+                    <li>AI असिस्टंटला सांगा की हा परिच्छेद वाचून कामगारांसाठी अगदी सोप्या भाषेत ३ नियम तयार कर.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="77">
+                <h2>ॲक्टिव्हिटी ३: कल्पनाशक्तीचे आव्हान (Idea Generation)</h2>
+                <p><strong>आव्हान:</strong> आपल्या ऑफिसच्या कॅन्टीनमध्ये अन्न वाया जाण्याचे प्रमाण कमी करण्यासाठी ५ कल्पना शोधायच्या आहेत.</p>
+            </div>
+
+            <div class="slide" data-section="77">
+                <h2>ॲक्टिव्हिटी ४: खराब मसुदा दुरुस्त करणे</h2>
+                <p><strong>आव्हान:</strong> या चुकीच्या वाक्याला सुधारा: *'सगळ्यांनी शुक्रवारी संध्याकाळपर्यंत आपापले टाईम शीट भरलेच पाहिजेत, नाहीतर पगार उशिरा होईल.'*</p>
+            </div>
+
+            <div class="slide" data-section="77">
+                <h2>ॲक्टिव्हिटी ५: तुमच्या स्वतःच्या कामाचा सराव</h2>
+                <p><strong>आव्हान:</strong> तुमच्या रोजच्या कामातील असे कोणतेही एक साधे काम आठवा आणि त्यासाठी प्रॉम्ट तयार करा.</p>
+            </div>
+
+            <div class="slide" data-section="77">
+                <h2>अनुभव शेअरिंग आणि चर्चा</h2>
+                <ul>
+                    <li>तुम्ही तयार केलेले प्रॉम्ट्स तुमच्या सहकाऱ्यांशी आणि मित्रांशी शेअर करा आणि त्यावर चर्चा करा.एकमेकांचे अनुभव ऐकल्याने आणि तुलना केल्याने तुमची समज अधिक वाढेल.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="77">
+                <h2>प्रत्यक्ष सरावातून आपण काय शिकलो?</h2>
+                <ul>
+                    <li>मोघम बोलण्यापेक्षा नेमकी माहिती दिल्यास AI कडून खूप चांगले उत्तर मिळते.</li>
+                    <li>आपल्या डोक्यातील कच्च्या कल्पनेला सुंदर रूप देण्यासाठी हे एक उत्तम साधन आहे.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="77">
+                <h2>आत्मविश्वास वाढवा!</h2>
+                <p style="text-align: center; font-size: 1.3rem; font-weight: bold; color: var(--secondary); margin-top: 30px;">
+                    अभिनंदन! तुम्ही स्वतः प्रॉम्ट लिहिला, चुका दुरुस्त केल्या आणि ऑफिसच्या समस्या सोडवण्यासाठी AI चा यशस्वी वापर केला. तुम्ही आता अधिकृतपणे 'स्मार्ट वर्कर' झाला आहात! 🎉
+                </p>
+            </div>
+
+            <!-- SECTION 8 -->
+            <div class="slide" data-section="88">
+                <h2>विभाग ८: कामाची गती वाढवणे (Workplace Productivity)</h2>
+                <p>AI हे तुमच्या ऑफिसमधील प्रत्येक विभागात तुमचे काम वेगाने करण्यासाठी आणि तुमचा ताण कमी करण्यासाठी बनवले गेले आहे.</p>
+            </div>
+
+            <div class="slide" data-section="88">
+                <h2>आपल्या ऑफिसमध्ये याचा रोज कुठे फायदा होईल?</h2>
+                <ul>
+                    <li>📝 <strong>कागदपत्रे आणि मसुदा:</strong> परिपत्रके, नोटीस, अधिकृत पत्रे आणि ईमेलचे ड्राफ्ट्स तयार करणे.</li>
+                    <li>🗣 <strong>उत्तम संवाद:</strong> पत्रांमधील भाषा सुधारेल, टोन व्यावसायिक राहील आणि प्रांतीय भाषांतराची चिंता मिटेल.</li>
+                    <li>📊 <strong>एक्सेल आणि डेटा:</strong> एक्सेल मधील कठीण सूत्रे शोधणे आणि विखुरलेली माहिती नीट मांडणे.</li>
+                    <li>📅 <strong>नियोजन आणि अजेंडा:</strong> कोणत्याही ट्रेनिंग किंवा मिटिंगचे वेळापत्रक आणि चेकलिस्ट बनवणे.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="88">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>ईमेल आणि संवादाचा वेग वाढवणे</h2>
+                        <ul>
+                            <li>कच्च्या आणि घाईत लिहिलेल्या मुद्यांवरून संपूर्ण अधिकृत पत्र तयार करणे.</li>
+                            <li>एखाद्या पत्राचा टोन बदलणे (उदा. सप्लायरला कडक शब्दात किंवा सहकाऱ्याला प्रेमाने सांगणे).</li>
+                            <li>ग्राहकांनी विचारलेल्या नेहमीच्या प्रश्नांची उत्तरे देण्यासाठी रेडीमेड साचे (Templates) बनवणे.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Pr01.png" alt="Professional Communication Flow" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="88">
+                <h2>रिपोर्ट्स आणि पॉलिसी रायटिंग</h2>
+                <ul>
+                    <li>मिटिंगमध्ये झालेल्या अस्ताव्यस्त चर्चेच्या टिपणांवरून एक 'मिनिट्स ऑफ मिटिंग' (MOM) बनवणे.</li>
+                    <li>ट्रेनिंग हँडबुक किंवा स्टँडर्ड ऑपरेटिंग प्रोसिजर (SOP) ची प्राथमिक रूपरेषा तयार करणे.</li>
+                    <li>कठीण तांत्रिक माहितीचे रूपांतर साध्या नियमांमध्ये करणे.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="88">
+                <h2>डेटा आणि एक्सेल मधील स्मार्ट मदत</h2>
+                <ul>
+                    <li>आपल्याला काय मोजायचे आहे ते फक्त सोप्या इंग्रजीत सांगितले, की टूल त्याचे कठीण फॉर्म्युल्यामध्ये रूपांतर करून देते.</li>
+                    <li>एक्सेलमध्ये येणारे एरर शोधून ते कसे दुरुस्त करायचे, याचे मार्गदर्शन मिळते.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="88">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>HR आणि प्रशासकीय कामांचे सोपे उपाय</h2>
+                        <ul>
+                            <li><strong>जॉब प्रोफाइल बनवणे:</strong> कोणत्याही पदाचे नाव आणि गरजेचे शिक्षण सांगितले की सвиस्तर जॉब डिस्क्रिप्शन तयार मिळते.</li>
+                            <li><strong>इंटरव्ह्यूची तयारी:</strong> उमेदवाराला कोणते प्रश्न विचारावेत, याची यादी तयार करणे.</li>
+                            <li><strong>कार्यालयीन घोषणा:</strong> सुट्ट्या, सण किंवा ऑफिसच्या नियमांमधील बदलांची माहिती देणाऱ्या नोटिसेस बनवणे.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Speed01.png" alt="HR Speedup Image 1" class="slide-image">
+                        <img src="Speed02.png" alt="HR Speedup Image 2" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="88">
+                <h2>कार्यक्रम आणि मिटिंगचे अचूक नियोजन</h2>
+                <ul>
+                    <li>कोणत्याही प्रोजेक्टच्या रिहर्सल किंवा ट्रेनिंग सेशनसाठी वेळेचे तंतोतंत नियोजन करणे.</li>
+                    <li>नवीन कर्मचाऱ्यांच्या पहिल्या दिवसाच्या स्वागतासाठी लागणाऱ्या गोष्टींची चेकलिस्ट बनवणे.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="88">
+                <h2>स्वतःचे ज्ञान वाढवण्यासाठी (Personal Tutor)</h2>
+                <p>या टूलचा वापर तुम्ही स्वतःला अधिक सक्षम करण्यासाठी एक वैयक्तिक शिक्षक म्हणून करू शकता:</p>
+                <ul>
+                    <li>नवीन सरकारी नियम, फॅक्टरी ॲक्ट किंवा लेबर लॉ चे कठीण क्लॉज सोप्या भाषेत समजून घेणे.</li>
+                    <li>वर्ड किंवा एक्सेल मधील अ‍ॅडव्हान्स फीचर्स कसे वापरायचे, याचे स्टेप-बाय-स्टेप धडे घेणे.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="88">
+                <h2>खरा फायदा: कोऱ्या पानावरील वेळ वाचवणे</h2>
+                <p>कोणतेही नवीन पत्र किंवा रिपोर्ट लिहिताना सुरुवातीची काही वाक्ये सुचण्यातच आपला खूप वेळ जातो. AI असिस्टंट आपल्याला काही सेकंदात एक कच्चा मसुदा (First Draft) तयार करून देतो. यामुळे आपला विचार करण्याचा वेळ वाचतो.</p>
+            </div>
+
+            <div class="slide" data-section="88">
+                <h2>कामाच्या पद्धतीतील फरक (आधी आणि आता)</h2>
+                <ul>
+                    <li><strong>जुन्या पद्धतीचा वर्कफ्लो:</strong> कोरी स्क्रीन पाहून विचार करणे &rarr; एकेक वाक्य स्वतः टाईप करणे &rarr; स्पेलिंग दुरुस्त करण्यात १ तास घालवणे.</li>
+                    <li><strong>स्मार्ट वर्कफ्लो:</strong> कच्चे मुद्दे AI मध्ये टाकणे &rarr; सेकंदात आलेला मसुदा वाचणे &rarr; गरजेनुसार बदल करणे &rarr; ५ मिनिटात काम पूर्ण!</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="88">
+                <h2>मानवी कौशल्याचे महत्त्व विसरू नका</h2>
+                <blockquote>AI हे फक्त एक साधन आहे जे तुम्हाला लिहून किंवा फॉरमॅट करून देऊ शकते. पण त्या माहितीमध्ये तुमच्या कंपनीचा आत्मा, तुमची प्रदीर्घ कामाची समज फक्त तुम्हीच जोडू शकता.</blockquote>
+            </div>
+
+            <div class="slide" data-section="88">
+                <h2>एक प्रत्यक्ष अनुभव घेऊया</h2>
+                <p>समजा पुढील आठवड्यात फॅक्टरीचे सेफ्टी ऑडिट (Safety Audit) आहे आणि त्याची नोटीस काढायची आहे:</p>
+                <ul>
+                    <li>**AI शिवाय:** तुम्ही १० मिनिटे विचार कराल की सुरुवात कशी करू, जेणेकरून लोग गांभीर्याने घेतील.</li>
+                    <li>**AI सोबत:** तुम्ही लिहाल: *"पुढील मंगळवारी सेफ्टी ऑडिट आहे, सुरक्षा नियम पाळणे अनिवार्य आहे अशी नोटीस लिही."* काम २ सेकंदात पूर्ण!</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="88">
+                <h2>तुमच्या स्वतःच्या कामाचे मूल्यमापन करा</h2>
+                <p>चला, तुमच्या स्वतःच्या साप्ताहिक वेळापत्रकाकडे नजर टाकूया:</p>
+                <ul>
+                    <li>अशी कोणती दोन कामे आहेत ज्यामध्ये तुमचा खूप वेळ फक्त टाईप करण्यात किंवा माहिती गोळा करण्यात जातो?</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="88">
+                <h2>आपसातील चर्चा</h2>
+                <ul>
+                    <li>ऑफिसमधील कोणते काम तुम्ही उद्यापासून सर्वात आधी AI च्या मदतीने करून पाहणार आहात?</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="88">
+                <h2>या भागाचा गोषवारा</h2>
+                <ul>
+                    <li>AI मुळे ऑफिसमधील कंटाळवाणी आणि लेखी कामे प्रचंड वेगाने पूर्ण होतात.</li>
+                    <li>नेहमीच्या लेखी कामांचा वेळ वाचवून आपण अधिक महत्त्वाच्या कामांवर लक्ष केंद्रित करू शकतो.</li>
+                </ul>
+            </div>
+
+            <!-- SECTION 9 -->
+            <div class="slide" data-section="103">
+                <h2>विभाग ९: AI च्या मर्यादा (Reality Check)</h2>
+                <p>जरी हे तंत्रज्ञान अफाट काम करत असले, तरी तो शेवटी एक कॉम्प्युटर प्रोग्राम आहे हे विसरून चालणार नाही. त्याला माणसासारखी स्वतःची बुद्धी किंवा भावना नसतात.</p>
+            </div>
+
+            <div class="slide" data-section="103">
+                <h2>कॉम्प्युटर चुकीची माहिती देऊ शकतो!</h2>
+                <ul>
+                    <li>**भ्रम (Hallucinations):** कधीकधी कॉम्प्युटर एखादी खोटी तारीख किंवा चुकीचे गणित अगदी पूर्ण आत्मविश्वासाने खरे असल्यासारखे लिहून देतो.</li>
+                </ul>
+                <blockquote>महत्त्वाचा नियम: कोणतीही महत्त्वाची आकडेवारी किंवा सरकारी कायदेशीर नियम AI कडून आल्यावर थेट वापरू नका, ते आधी तपासून पहा.</blockquote>
+            </div>
+
+            <div class="slide" data-section="103">
+                <h2>त्याला माणसासारखे 'समजत' नाही</h2>
+                <ul>
+                    <li>AI ला तुमच्या व्यवसायाचे उद्दिष्ट किंवा दोन कर्मचाऱ्यांमधील अंतर्गत संबंध समजत नाहीत.</li>
+                    <li>ते फक्त इंटरनेटवरील लाखो शब्दांचा अभ्यास करून वाक्य बनवते.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="103">
+                <h2>अति-अवलंबनाचे धोके (Over-Dependence)</h2>
+                <ul>
+                    <li>कॉम्प्युटरने दिलेला मसुदा न वाचता तसाच कॉपी-पेस्ट करून पुढे पाठवल्यास कधीकधी ऑफिसमध्ये गैरसमज किंवा मोठ्या चुका होऊ शकतात.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="103">
+                <h2>मर्यादित ज्ञान आणि संदर्भ</h2>
+                <p>तुम्ही प्रॉम्ट बॉक्समध्ये जेवढी माहिती लिहाल, कॉम्प्युटरला फक्त तेवढीच परिस्थिति समजते. तुमच्या ऑफिसमधील संस्कृती याची त्याला कल्पना नसते.</p>
+            </div>
+
+            <div class="slide" data-section="103">
+                <h2>स्मार्ट वर्करचा मूळ मंत्र</h2>
+                <p>ऑफिसच्या कामात तंत्रज्ञानाचा वापर करताना हा एकच नियम नेहमी लक्षात ठेवा:</p>
+                <p style="font-size: 2rem; text-align: center; color: var(--accent); font-weight: bold; margin: 30px 0;">
+                    "विश्वास ठेवा... पण पडताळणी करा!"
+                </p>
+            </div>
+
+            <div class="slide" data-section="103">
+                <h2>एक छोटा विचार करा</h2>
+                <ul>
+                    <li>कंपनीच्या नवीन नियमांचे परिपत्रक सर्व कर्मचाऱ्यांना पाठवण्यापूर्वी तुम्ही ते स्वतः न वाचता तसेच पुढे पाठवाल का?</li>
+                </ul>
+            </div>
+
+            <!-- SECTION 10 -->
+            <div class="slide" data-section="110">
+                <h2>विभाग १०: सुरक्षित आणि जबाबदार वापर (AI Safety)</h2>
+                <p>ऑफिसमध्ये काम करताना तंत्रज्ञानाचा वापर जितका फायदेशीर आहे, तितकाच तो नियमांना धरून आणि सुरक्षित असणे आवश्यक आहे.</p>
+            </div>
+
+            <div class="slide" data-section="110">
+                <h2>डेटा गोपनीयता: गोपनीयतेचे रक्षण</h2>
+                <p>कंपनीची गुप्त माहिती सुरक्षित ठेवण्यासाठी पुढील गोष्टी **कधीही** चॅट बॉक्समध्ये टाकू नका:</p>
+                <ul>
+                    <li>❌ कर्मचाऱ्यांची खाजगी माहिती (जसे की पगार, घरचा पत्ता, आधार नंबर).</li>
+                    <li>❌ कंपनीचे गुप्त आर्थिक हिशोब, ऑडिट रिपोर्ट किंवा भविष्यातील बिझनेस प्लॅन्स.</li>
+                    <li>❌ तुमचे पासवर्ड्स, बँक खात्याचे नंबर्स किंवा ओटीपी (OTP).</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="110">
+                <h2>माहितीची सत्यता नेहमी तपासा</h2>
+                <p>कॉम्प्युटरने लिहिलेल्या पत्रातील आकडे किंवा कायद्याचे संदर्भ अधिकृत सरकारी वेबसाईट किंवा कंपनीच्या पुस्तिकेशी जुळवून पाहिल्याशिवाय त्यावर शिक्कामोर्तब करू नका.</p>
+            </div>
+
+            <div class="slide" data-section="110">
+                <h2>नैतिक आणि जबाबदार वापर</h2>
+                <ul>
+                    <li>या टूल्सचा वापर फक्त स्वतःच्या कामाची गती आणि उत्पादकता वाढवण्यासाठी प्रामाणिकपणे करा.</li>
+                    <li>कोणाची फसवणूक करण्यासाठी किंवा चुकीची माहिती पसरवण्यासाठी या तंत्रज्ञानाचा वापर करू नका.</li>
+		<h2>संवेदनशील कामासाठी ‘ॲनॉनिमायझेशन’ वापरा:</h2>
+		    <li>खरी नावे टाळा—‘कर्मचारी अ’, ‘व्हेंडर क्ष’ असे काल्पनिक शब्द वापरून माहिती सुरक्षित ठेवा आणि काम पूर्ण करा.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="110">
+                <h2>डेटा मधील पूर्वग्रह (Bias) लक्षात ठेवा</h2>
+                <p>AI हे इंटरनेटवरील जुन्या माहितीवरून शिकलेले असते. इंटरनेटवर आधीपासून जी मानवी पूर्वग्रहांची माहिती उपलब्ध असते, तीच माहिती कॉम्प्युटरच्या उत्तरातही उमटू शकते.</p>
+            </div>
+
+            <div class="slide" data-section="110">
+                <h2>यशस्वी कामाचे समीकरण</h2>
+                <p style="font-size: 1.3rem; text-align: center; color: var(--primary); font-weight: bold; margin: 30px 0;">
+                    AI चा प्रचंड वेग + माणसाची बुद्धी आणि नियंत्रण = सर्वोत्तम आणि अचूक काम
+                </p>
+            </div>
+
+            <div class="slide" data-section="110">
+                <h2>तुमची अंतिम चेकलिस्ट (Sign-off Checklist)</h2>
+                <p>कॉम्प्युटरने तयार केलेले कोणतेही पत्र प्रिंट किंवा ईमेल करण्यापूर्वी स्वतःला हे ३ प्रश्न नक्की विचारा:</p>
+                <ul>
+                    <li>📦 <strong>तथ्य तपासणी:</strong> मी सर्व आकडे अधिकृत स्रोतावरून तपासून घेतले आहेत का?</li>
+                    <li>🗣 <strong>भाषेचा दर्जा:</strong> या पत्राचा टोन आपल्या कंपनीच्या संस्कृतीला साजेसा आहे का?</li>
+                    <li>🔐 <strong>माहितीची सुरक्षा:</strong> यात कोणतीही खाजगी माहिती चुकून पुढे जात नाही ना?</li>
+                </ul>
+            </div>
+
+            <!-- SECTION 11 -->
+            <div class="slide" data-section="117">
+                <h2>विभाग ११: भविष्य आणि समारोप</h2>
+                <p>हे तंत्रज्ञान अत्यंत वेगाने बदलत आहे. येणाऱ्या काळात ते आपल्या ऑफिसच्या सर्व सॉफ्टवेअर्सचा एक भाग बनणार आहे. आजच याचे मूलभूत नियम शिकणे आपल्याला भविष्यात खूप पुढे घेऊन जाईल.</p>
+            </div>
+
+            <div class="slide" data-section="117">
+                <h2>AI आणि आपल्या नोकऱ्यांचे भविष्य</h2>
+                <ul>
+                    <li>AI मुळे कागदपत्रांची कामे, भाषांतर आणि डेटा फॉरमॅटिंग यांसारखी यांत्रिक कामे आपोआप होतील.</li>
+                    <li>पण माणसाची आपुलकी, कठीण प्रसंगातील निर्णयक्षमता आणि एकमेकांशी संवाद साधण्याचे कसब कॉम्प्युटर कधीही हिरावून घेऊ शकत नाही.</li>
+                </ul>
+                <blockquote>मुख्य विचार: AI माणसाची जागा घेणार नाही, पण जे लोग AI का वापर करायला शिकतील, ते न शिकणाऱ्या लोकांपेक्षा कामात खूप पुढे निघून जातील.</blockquote>
+            </div>
+
+            <div class="slide" data-section="117">
+                <h2>भविष्यासाठी आवश्यक असणारी ३ कौशल्ये</h2>
+                <p>बदलत्या काळात स्वतःला सक्षम ठेवण्यासाठी या तीन गोष्टींवर भर द्या:</p>
+                <ul>
+                    <li><strong>प्रॉम्ट इंजिनिअरिंग (Prompt Engineering):</strong> कॉम्प्युटरला स्पष्ट आणि नेमक्या सूचना देण्याची कला.</li>
+                    <li><strong>क्रिटिकल थिंकिंग (Critical Thinking):</strong> AI च्या उत्तरातील चुका ओळखून सुधारणा करण्याची क्षमता.</li>
+		    <li><strong>निर्णयक्षमता (Decision Making):</strong> योग्य माहिती निवडून अंतिम निर्णय घेण्याची सवय.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="117">
+                <h2>विचारांची दिशा बदला: भीती सोडा, मित्र बनवा!</h2>
+                <ul>
+                    <li>❌ <strong>घाबरू नका:</strong> हे तंत्रज्ञान तुमची नोकरी हिरावून घेण्यासाठी आलेले नाही.</li>
+                    <li>✔ <strong>शिकून घ्या:</strong> याला आपला एक वैयक्तिक असिस्टंट समजा.</li>
+                    <li>✔ <strong>प्रगती करा:</strong> वाचलेल्या वेळेचा वापर ऑफिसच्या मोठ्या आणि महत्त्वाच्या जबाबदाऱ्या पार पाडण्यासाठी करा.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="117">
+                <h2>सुरुवात छोटी करा, पण आजच करा!</h2>
+                <p>यासाठी कोणत्याही मोठ्या प्रशिक्षणाची वाट पाहण्याची गरज नाही. उद्याच गुगलवर एखादे मोफत टूल ओपन करा आणि तुमच्या रोजच्या कामातील एक साधे पत्र लिहिणे, कठीण एक्सेल फॉर्म्युला विचारणे यापासून सुरुवात करा. वापराल तितके शिकाल!</p>
+            </div>
+
+            <div class="slide" data-section="117">
+                <h2>ट्रेनिंग संपण्यापूर्वी स्वतःला एक वचन द्या!</h2>
+                <p>आजचे हे सत्र संपवण्यापूर्वी आपल्या मनाशी एक छोटा संकल्प करूया:</p>
+                <ul>
+                    <li>तुमच्या कामातील असे एक काम ठरवा ज्यामध्ये तुमचा लिहिण्याचा किंवा टाईप करण्याचा वेळ जातो.</li>
+                    <li>उद्या सकाळी ते काम करताना तुम्ही पहिल्यांदा AI असिस्टंटची मदत घेऊन त्याचा ड्राफ्ट तयार कराल, हा सराव सुरू करा.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="117">
+                <h2>आजच्या संपूर्ण सत्राचा गोषवारा</h2>
+                <ul>
+                    <li>AI हे माहितीमधील पॅटर्न्स ओळखून आपले काम सोपे करणारे एक आधुनिक साधन आहे.</li>
+                    <li>कामाची सत्यता तपासणे आणि माहितीची सुरक्षा राखणे ही नेहमीच आपली अंतिम जबाबदारी असेल.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="117" style="text-align: center; align-items: center;">
+                <h1>खूप खूप धन्यवाद!</h1>
+                <p style="color: var(--secondary); font-size: 1.5rem; margin-top: 15px;">काही शंका किंवा प्रश्न आहेत का?</p>
+                <p style="margin-top: 30px; font-size: 1.1rem; color: #64748b;">आजच्या सत्रात उत्साहाने सहभागी झाल्याबद्दल धन्यवाद!</p>
+                
+                <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center;">
+                    <button class="nav-btn" onclick="jumpToSection(0)">सादरीकरण पुन्हा सुरू करा</button>
+                    <button class="nav-btn btn-quiz" onclick="window.location.href='Test in Mararthi.html'">प्रश्नमंजुषा - चाचणी सोडवा</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="controls-bar">
+	<button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>मागे</button>
+    	<!-- Updated placeholder to reflect your actual count -->
+    	<div class="progress-indicator" id="progressText">स्लाईड १ ऑफ १२४</div>
+    	<button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">पुढे</button>
+        </div>
+    </div>
+
+    <script>
+const slides = document.querySelectorAll('.slide');
+        const progressText = document.getElementById('progressText');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const sectionJump = document.getElementById('sectionJump');
+        let currentSlideIndex = 0;
+
+        // ==========================================
+        //  MANUAL AUDIO MAPPING CONFIGURATION
+        // ==========================================
+        // Slide 1 is Index 0, Slide 2 is Index 1, etc.
+        // Assign the exact .wav filename next to each index.
+        // If a slide has no audio, leave it as "" or omit it.
+        const audioMap = {
+                        0: "M001.wav",
+            1: "M002.wav",
+            2: "M003.wav",
+            3: "M004.wav",
+            4: "M005.wav",
+            5: "M006.wav",
+            6: "M007.wav",
+            7: "M008.wav",
+            8: "M009.wav",
+            9: "M010.wav",
+            10: "M011.wav",
+            11: "M012.wav",
+            12: "M013.wav",
+            13: "M014.wav",
+            14: " ",
+            15: "M015.wav",
+            16: "M016.wav",
+            17: "M017.wav",
+            18: "M018.wav",
+            19: "M019.wav",
+            20: "M020.wav",
+            21: "M021.wav",
+            22: "M022.wav",
+            23: "M023.wav",
+            24: "M024.wav",
+            25: "M025.wav",
+            26: "M026.wav",
+            27: "M027.wav",
+            28: "M028.wav",
+            29: "M029.wav",
+            30: "M030.wav",
+            31: "M031.wav",
+            32: "M032.wav",
+            33: "M033.wav",
+            34: "M034.wav",
+            35: "M035.wav",
+            36: "M036.wav",
+            37: "M037.wav",
+            38: "M038.wav",
+            39: "M039.wav",
+            40: "M040.wav",
+            41: "M041.wav",
+            42: "M042.wav",
+            43: "M043.wav",
+            44: "M044.wav",
+            45: "M045.wav",
+            46: "M046.wav",
+            47: "M047.wav",
+            48: "M047B.wav",
+            49: "M048.wav",
+            50: "M049.wav",
+            51: "M050.wav",
+            52: "M051.wav",
+            53: "M052.wav",
+            54: "M053.wav",
+            55: "M054.wav",
+            56: "M055.wav",
+            57: "M056.wav",
+            58: "M057.wav",
+            59: "M058.wav",
+            60: "M059.wav",
+            61: "M060.wav",
+            62: "M061.wav",
+            63: "M062.wav",
+            64: "M063.wav",
+            65: "M064.wav",
+            66: "M065.wav",
+            67: "M066.wav",
+            68: "M067.wav",
+            69: "M068.wav",
+            70: "M069.wav",
+            71: "M070.wav",
+            72: "M071.wav",
+            73: "M072.wav",
+            74: "M073.wav",
+            75: "M074.wav",
+            76: "M075.wav",
+            77: "M076.wav",
+            78: "M077.wav",
+            79: "M078.wav",
+            80: "M079.wav",
+            81: "M080.wav",
+            82: "M081.wav",
+            83: "M082.wav",
+            84: "M083.wav",
+            85: "M084.wav",
+            86: "M085.wav",
+            87: "M086.wav",
+            88: "M087.wav",
+            89: "M088.wav",
+            90: "M089.wav",
+            91: "M090.wav",
+            92: "M091.wav",
+            93: "M092.wav",
+            94: "M093.wav",
+            95: "M094.wav",
+            96: "M095.wav",
+            97: "M096.wav",
+            98: "M097.wav",
+            99: "M098.wav",
+            100: "M099.wav",
+            101: "M100.wav",
+            102: "M101.wav",
+            103: "M102.wav",
+            104: "M103.wav",
+            105: "M104.wav",
+            106: "M105.wav",
+            107: "M106.wav",
+            108: "M107.wav",
+            109: "M108.wav",
+            110: "M109.wav",
+            111: "M110.wav",
+            112: "M111.wav",
+            113: "M112.wav",
+            114: "M113.wav",
+            115: "M114.wav",
+            116: "M115.wav",
+            117: "M116.wav",
+            118: "M117.wav",
+            119: "M118.wav",
+            120: "M119.wav",
+            121: "M120.wav",
+            122: "M121.wav",
+            123: "M122.wav",
+            124: "M123.wav",
+        };
+
+        // --- CORE AUDIO ENGINE ---
+        const slideAudio = new Audio();
+        let isAudioPlaying = false;
+
+        function updateControls() {
+            prevBtn.disabled = currentSlideIndex === 0;
+            
+            // Next button stays locked if it is the final slide OR if audio is actively playing
+             nextBtn.disabled = (currentSlideIndex === slides.length - 1) || isAudioPlaying;
+            
+            // This line dynamically calculates the real total and prints it in Marathi
+            progressText.innerText = `स्लाईड ${currentSlideIndex + 1} ऑफ ${slides.length}`;
+            
+            const currentSectionVal = slides[currentSlideIndex].getAttribute('data-section');
+            if (sectionJump) sectionJump.value = currentSectionVal;
+        }
+
+        // --- AUTOMATED AUDIO TRACK HANDLER ---
+        function handleSlideAudio() {
+            // Stop any playing audio tracks completely
+            slideAudio.pause();
+            slideAudio.src = "";
+            isAudioPlaying = false;
+
+            // Look up if an audio file is assigned to the current slide index
+            const assignedAudioFile = audioMap[currentSlideIndex];
+
+            // Only attempt play if a valid filename exists in the map
+            if (assignedAudioFile && assignedAudioFile.trim() !== "") {
+                slideAudio.src = assignedAudioFile;
+                isAudioPlaying = true;
+            }
+
+            // Lock controls immediately while calculating audio playback states
+            updateControls();
+
+            if (isAudioPlaying) {
+                slideAudio.play().catch(err => {
+                    console.log("Autoplay blocked by local browser environment settings.");
+                    
+                    // Fallback: If browser blocks automated audio execution, trigger on first user click gesture
+                    const playOnGesture = () => {
+                        slideAudio.play().catch(e => console.log("Audio play gesture failed:", e));
+                        document.removeEventListener('click', playOnGesture);
+                    };
+                    document.addEventListener('click', playOnGesture);
+                });
+
+                // Release Next button and key locks when audio track plays to completion
+                slideAudio.onended = function() {
+                    isAudioPlaying = false;
+                    updateControls();
+                };
+            }
+        }
+
+        function changeSlide(direction) {
+            slides[currentSlideIndex].classList.remove('active');
+            currentSlideIndex += direction;
+            
+            if(currentSlideIndex < 0) currentSlideIndex = 0;
+            if(currentSlideIndex >= slides.length) currentSlideIndex = slides.length - 1;
+            
+            slides[currentSlideIndex].classList.add('active');
+            slides[currentSlideIndex].scrollTop = 0;
+            
+            updateControls();
+            handleSlideAudio(); // Fires your track instantly following transitions
+        }
+
+        function jumpToSection(slideIndexStr) {
+            const targetIdx = parseInt(slideIndexStr, 10);
+            slides[currentSlideIndex].classList.remove('active');
+            currentSlideIndex = targetIdx;
+            slides[currentSlideIndex].classList.add('active');
+            slides[currentSlideIndex].scrollTop = 0;
+            
+            updateControls();
+            handleSlideAudio(); // Fires your track instantly following jumps
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                // Safeguard added to prevent keyboard navigation skipping if audio is playing
+                if(currentSlideIndex < slides.length - 1 && !isAudioPlaying) changeSlide(1);
+            } else if (e.key === 'ArrowLeft') {
+                if(currentSlideIndex > 0) changeSlide(-1);
+            }
+        });
+
+        // Initialize display configuration state and fire slide 1 audio tracking automatically
+        updateControls();
+        handleSlideAudio();
+    </script>
+</body>
+</html>

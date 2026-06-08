@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Artificial Intelligence</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #0284c7;
+            --accent: #f59e0b;
+            --bg: #0f172a;
+            --text: #334155;
+            --slide-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: var(--slide-bg);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .slide-deck {
+            flex: 1;
+            position: relative;
+            overflow-y: auto;
+            padding: 40px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide {
+            display: none;
+            height: 100%;
+            flex-direction: column;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        h1 {
+            font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+            color: var(--primary);
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+            color: var(--primary);
+            margin-bottom: 25px;
+            border-bottom: 4px solid var(--secondary);
+            padding-bottom: 10px;
+            display: inline-block;
+            max-width: 100%;
+        }
+
+        h3 {
+            font-size: clamp(1.1rem, 2.3vw, 1.5rem);
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style-type: none;
+            margin-bottom: 20px;
+        }
+
+        li {
+            font-size: clamp(0.9rem, 1.6vw, 1.15rem);
+            line-height: 1.6;
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 35px;
+        }
+
+        li::before {
+            content: "🔹";
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+
+        .title-slide {
+            text-align: center;
+            align-items: center;
+        }
+
+        .title-slide p {
+            font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .split-content {
+            width: 100%;
+        }
+
+        .split-media {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            height: 100%;
+            min-height: 300px;
+        }
+
+        .slide-image {
+            flex: 1;
+            min-width: 120px;
+            width: 100%;
+            height: auto;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .quiz-option {
+            background: #f1f5f9;
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1.05rem;
+            transition: all 0.2s;
+            border-left: 5px solid #cbd5e1;
+        }
+
+        .quiz-option:hover {
+            background: #e2e8f0;
+            border-left-color: var(--secondary);
+            transform: translateX(5px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+        }
+
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: var(--primary);
+        }
+
+        blockquote {
+            border-left: 5px solid var(--accent);
+            background: #fef3c7;
+            padding: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            font-size: 1.05rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .controls-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: #f1f5f9;
+            border-top: 1px solid #e2e8f0;
+            height: 70px;
+        }
+
+        .nav-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: var(--secondary);
+        }
+
+        .nav-btn.secondary-btn {
+            background: #10b981;
+        }
+
+        .nav-btn.secondary-btn:hover {
+            background: #059669;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .progress-indicator {
+            font-weight: 600;
+            color: #64748b;
+            font-size: 1rem;
+        }
+
+        .sections-menu {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            z-index: 100;
+        }
+
+        .sections-select {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            background: white;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="presentation-container">
+        <div class="sections-menu">
+            <select class="sections-select" id="sectionJump" onchange="jumpToSection(this.value)">
+                <option value="0">Section 1: Introduction & Context</option>
+                <option value="5">Section 2: Fundamentals of AI</option>
+                <option value="16">Section 3: AI Around Us</option>
+                <option value="28">Section 4: Generative AI Ecosystem</option>
+                <option value="41">Section 5: AI in Everyday Workplace Tasks</option>
+                <option value="60">Section 6: Mastering Prompts</option>
+                <option value="71">Section 7: Hands-on Practice</option>
+                <option value="81">Section 8: Workplace Productivity</option>
+                <option value="95">Section 9: Limitations of AI</option>
+                <option value="101">Section 10: Data Privacy & Ethics</option>
+                <option value="107">Section 11: Future Frameworks</option>
+            </select>
+        </div>
+
+        <div class="slide-deck" id="deck">
+
+            <!-- SECTION 1 -->
+            <div class="slide active title-slide" data-section="0">
+                <h1>Introduction to Artificial Intelligence</h1>
+                <p>Demystifying Technology for Daily Operational Excellence</p>
+                <div style="margin-top: 40px; font-size: 1.1rem; color: #64748b;">Mandar Salkade • Kopran Limited</div>
+            </div>
+
+            <div class="slide" data-section="0">
+                <h2>Are You Already Using AI?</h2>
+                <ul>
+                    <li>Do you consult Google Maps to check live traffic bottlenecks on your commute?</li>
+                    <li>Do you use voice assistants like "Hey Google" or Siri for quick checks?</li>
+                    <li>Do you watch recommendations tailored for you on YouTube or Netflix?</li>
+                    <li>Does your smartphone automatically correct or predict words while typing a text?</li>
+                </ul>
+                <p style="font-weight: bold; color: var(--secondary); margin-top: 20px; text-align: center; font-size: 1.4rem;">
+                    If you answered YES to any of these, you are already an active user of AI! 😊
+                </p>
+            </div>
+
+            <div class="slide" data-section="0">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>What exactly is Artificial Intelligence?</h2>
+                        <p><strong>Simple Definition:</strong> AI refers to the functional capability of machines or computer systems to mimic human intelligence, analyze data structures, and solve problems autonomously.</p>
+                        <ul>
+                            <li>Systems capable of extracting patterns directly from historical logs.</li>
+                            <li>Engines engineered to address complex everyday bottlenecks.</li>
+                            <li>Predictive technologies that map outcomes using trend baselines.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image001.png" alt="Machine Intelligence Overview" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="0">
+                <h2>AI is Ubiquitous</h2>
+                <p>Software environments operate constantly in our backend to minimize manual overheads:</p>
+                <ul>
+                    <li><strong>Google Maps:</strong> Dynamically recalculates alternate routes to bypass traffic congestion.</li>
+                    <li><strong>Streaming Content Platforms:</strong> Tracks user preferences to queue custom media recommendations.</li>
+                    <li><strong>Smartphones:</strong> Utilizes biometric neural loops for facial recognition and camera enhancement.</li>
+                    <li><strong>E-Commerce:</strong> Analyzes buying behaviors to prioritize relevant utility recommendations.</li>
+                    <li><strong>Email Clients:</strong> Runs automated heuristic filters to segregate spam traffic from inbox lines.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="0">
+                <h2>Why Should We Upskill?</h2>
+                <p>Integrating AI workflows modifies personal operational velocities across multiple vectors:</p>
+                <ul>
+                    <li>⏳ <strong>Resource Compression:</strong> Trims hours off structural transcription and layout construction.</li>
+                    <li>💼 <strong>Friction Mitigation:</strong> Automates standard text production and manual administrative logs.</li>
+                    <li>📈 <strong>Output Standardization:</strong> Ensures consistency in quality across documentation processes.</li>
+                    <li>🤝 <strong>Informed Actions:</strong> Provides objective data-driven insights during critical processes.</li>
+                </ul>
+                <blockquote>Key Objective: AI will not replace personnel, but personnel utilizing AI will naturally outpace structural baselines.</blockquote>
+            </div>
+
+            <!-- SECTION 2 -->
+            <div class="slide" data-section="5">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>Human Learning vs. Machine Learning</h2>
+                        <ul>
+                            <li><strong>Humans:</strong> We acquire knowledge through localized sensory experience, guided observation, and cumulative adjustments over errors.</li>
+                            <li><strong>AI Environments:</strong> These systems consume vast historical repositories, mapping structural constants and math matrices to build dynamic operational bounds.</li>
+                        </ul>
+                        <p><em>Example:</em> A child easily identifies an animal from minimal examples, whereas a machine parses thousands of image matrices to define matching parameters.</p>
+                    </div>
+                    <div class="split-media">
+                        <img src="Data_Driven.png" alt="Data-driven Learning Process" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="5">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>Data: The Structural Fuel of AI</h2>
+                        <p><strong>What is Data?</strong> Any structured or raw variable set legible to a computing layout. AI consumes these patterns to hone execution logic.</p>
+                        <h3>Common Operations Formats:</h3>
+                        <ul>
+                            <li>Visual: Imagery, schematic designs, and digital video assets 📸</li>
+                            <li>Textual: Internal updates, customer logs, and formal communications ✉</li>
+                            <li>Structured: Spreadsheets, performance matrices, and tabular logs 📊</li>
+                            <li>Acoustic: Voice recording banks and client interaction logs 🎤</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Data_Streams.png" alt="Different Types of Data" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="5">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>How AI Learns Classifications</h2>
+                        <p>Machines optimize sorting criteria without explicit hardcoded hard lines:</p>
+                        <ul>
+                            <li><strong>Phase 1:</strong> The environment receives thousands of pre-sorted comparative assets.</li>
+                            <li><strong>Phase 2:</strong> Internal weights evaluate edge profiles, color counts, and pixel distributions.</li>
+                            <li><strong>Phase 3:</strong> Exposed to a raw asset, the model outputs accurate classifications based on these learned metrics.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Pattern.png" alt="Pattern Recognition" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="5">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>Standard Automation vs. True AI</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Traditional Automation (Rules-Based)</th>
+                                    <th>True AI (Adaptive Learning)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Runs strictly within pre-coded algorithmic logic. It cannot self-correct or adapt.</td>
+                                    <td>Processes input variations to independently refine operational parameters.</td>
+                                </tr>
+                                <tr>
+                                    <td>Returns identical, rigid outputs under static conditional triggers.</td>
+                                    <td>Modifies structural outputs dynamically to align with new data inputs.</td>
+                                </tr>
+                                <tr>
+                                    <td><em>Example:</em> Spreadsheet macro computations.</td>
+                                    <td><em>Example:</em> Real-time traffic rerouting models.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="split-media">
+                        <img src="System.png" alt="System Differences" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="5">
+                <h2>AI Systems vs. Human Reasoning</h2>
+                <p>AI acts as an operational multiplier, but human oversight remains critical:</p>
+                <ul>
+                    <li><strong>Artificial Intelligence:</strong> Excels at rapid data parsing, processing millions of data rows, and running repetitive math structures without fatigue or bias.</li>
+                    <li><strong>Human Intellect:</strong> Possesses contextual evaluation, empathy, strategic agility, and ethical alignment.</li>
+                </ul>
+                <blockquote>Operational Standard: AI models generate structure and draft material, but human intelligence delivers final validation and strategic sign-off.</blockquote>
+            </div>
+
+            <div class="slide" data-section="5">
+                <h2>The Practical Spectrum of AI</h2>
+                <ul>
+                    <li><strong>Narrow AI (The Present Reality):</strong> Models optimized to perform a specific task exceptionally well.
+                        <ul>
+                            <li><em>Examples:</em> Language translations, dynamic routing maps, or facial verification loops.</li>
+                        </ul>
+                    </li>
+                    <li><strong>General AI (Theoretical Concept):</strong> A framework possessing the adaptive intellectual versatility of a human across all domains.
+                        <ul>
+                            <li><em>Current State:</em> This tier remains purely theoretical and does not exist in today's landscape.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="5">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>Case Study 1: Google Maps Architecture</h2>
+                        <p>How does a digital layout accurately project spatial journey completion milestones?</p>
+                        <ul>
+                            <li>Aggregates constant location velocities from active mobile devices.</li>
+                            <li>Evaluates real-time velocity arrays against localized historical trends.</li>
+                            <li>Flags unexpected velocity drops to dynamically route surrounding users.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image002.png" alt="Live Traffic Prediction" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="5">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>Case Study 2: Content Discovery Environments</h2>
+                        <p>Why do streaming indexes look radically different across personalized accounts?</p>
+                        <ul>
+                            <li>Tracks continuous retention scores, click triggers, and skipped items.</li>
+                            <li>Clusters user profiles into similar behavioral baseline cohorts globally.</li>
+                            <li>Dynamically re-orders user interfaces to surface high-affinity media matches.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image004.png" alt="Personal Recommendations" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="5">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>Case Study 3: The Edge Native Smartphone</h2>
+                        <p>Modern mobile phones depend heavily on internal heuristic engines:</p>
+                        <ul>
+                            <li><strong>Biometric Mapping:</strong> Evaluates specialized point-cloud vectors instantly to execute secure device unlock sequences.</li>
+                            <li><strong>Computational Imaging:</strong> Determines focal entities to adjust illumination dynamically.</li>
+                            <li><strong>Predictive Text Layers:</strong> Pre-calculates likely conversational additions to offer inline tab choices.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image006.png" alt="Smartphone AI Features" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="5">
+                <h2>Interactive Checkpoint</h2>
+                <p>Identify which scenario is standard rules-based logic and which is adaptive AI:</p>
+                <div class="quiz-option" onclick="alert('Correct! This relies on fixed programmatic rules.')">1. A spreadsheet calculating sum columns using set structural arithmetic.</div>
+                <div class="quiz-option" onclick="alert('Correct! This represents dynamic real-time AI parsing.')">2. Navigation software automatically re-routing due to real-time anomalies.</div>
+                <div class="quiz-option" onclick="alert('Correct! Custom tailored asset feeds represent dynamic machine behavior models.')">3. A media network structuring an automated playlist based on past interaction.</div>
+            </div>
+
+            <div class="slide" data-section="5">
+                <h2>Core Insights: Section Summary</h2>
+                <ul>
+                    <li>AI maps outputs strictly by identifying features across complex data arrays.</li>
+                    <li>Model consistency matches the architectural variety of historical input sets directly.</li>
+                </ul>
+            </div>
+
+            <!-- SECTION 3 -->
+            <div class="slide" data-section="16">
+                <h2>Section 3: AI Around Us</h2>
+                <p>Let's map out how modern computing platforms operate inside current industry operations through specific enterprise examples.</p>
+            </div>
+
+            <div class="slide" data-section="16">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>An AI-Assisted Operational Day</h2>
+                        <ul>
+                            <li>🌅 <strong>Morning:</strong> Email environments parse communication priorities, segregating high-value client notices from standard noise.</li>
+                            <li>🚗 <strong>Commute:</strong> Transit networks compute ride accessibility metrics to dispatch drivers along optimized corridors.</li>
+                            <li>💼 <strong>Operations:</strong> Editing layers clear contextual errors from reports while organizing spreadsheet matrices.</li>
+                            <li>🌙 <strong>Evening:</strong> Protective loops scan transactional profiles across card networks to isolate anomalies instantly.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image007.png" alt="Communication 1" class="slide-image">
+                        <img src="Image008.png" alt="Communication 2" class="slide-image">
+                        <img src="Image009.png" alt="Communication 3" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="16">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>Transit & Logistics Architecture</h2>
+                        <ul>
+                            <li><strong>Anomaly Mitigation:</strong> Parses high-density localization feeds to map congestion-free routing corridors.</li>
+                            <li><strong>Dynamic Pricing Structures:</strong> Scales transport fares based on environmental indicators and supply matrices.</li>
+                            <li><strong>Estimated Time of Arrival (ETA) Tracing:</strong> Evaluates shipment parameters against archival records to update operational milestones.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image010.png" alt="Route Planning 1" class="slide-image">
+                        <img src="Image011.png" alt="Route Planning 2" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="16">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>E-Commerce Frameworks</h2>
+                        <ul>
+                            <li><strong>Affinity Merchandising:</strong> Evaluates transactional sequences to recommend logical accompanying accessories.</li>
+                            <li><strong>Behavioral Promotion:</strong> Offers custom vouchers to re-engage accounts based on user cart retention times.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image012.png" alt="Shopping Experience" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="16">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>Banking & Transaction Security</h2>
+                        <ul>
+                            <li><strong>Fraud Isolation:</strong> Temporarily freezes processing lines if transaction locations deviate from normal consumer patterns.</li>
+                            <li><strong>Automated Self-Service Lines:</strong> Employs structured interface nodes to parse routine balances and requests without manual support.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image013.png" alt="Banking Security 1" class="slide-image">
+                        <img src="Image014.png" alt="Banking Security 2" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="16">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>Social Discovery Optimization</h2>
+                        <ul>
+                            <li><strong>Engagement Loops:</strong> Sequences display feeds based on historical gaze and interaction metrics.</li>
+                            <li><strong>Targeted Audience Marketing:</strong> Matches commercial campaigns with high-affinity demographic profiles.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="SM_01.png" alt="Social Media 1" class="slide-image">
+                        <img src="SM_02.png" alt="Social Media 2" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="16">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>Enterprise Office Environments</h2>
+                        <ul>
+                            <li><strong>Template Generation:</strong> Creates foundational documentation outlines based on basic thematic parameters.</li>
+                            <li><strong>Data Pattern Profiling:</strong> Extracts core parameters from vast data spreadsheets to map graphs automatically.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image015.png" alt="Office Productivity 1" class="slide-image">
+                        <img src="Image016.png" alt="Office Productivity 2" class="slide-image">
+                        <img src="Image017.png" alt="Office Productivity 3" class="slide-image">
+                        <img src="Image018.png" alt="Office Productivity 4" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="16">
+                <h2>Human Resources & Administration</h2>
+                <ul>
+                    <li><strong>Candidate Sifting Blocks:</strong> Scans massive application repositories to filter candidates with matching core competencies.</li>
+                    <li><strong>Panel Scheduling:</strong> Analyzes calendar blocks across multiple cross-functional departments to automate interview loops.</li>
+                    <li><strong>Policy Guidance:</strong> Deploys internal assistant platforms to address repetitive benefit and leave inquiries instantly.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="16">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>Entertainment & Media Curation</h2>
+                        <ul>
+                            <li><strong>Acoustic Profiling:</strong> Sequences continuous tracking stations matching temporal changes and past user metrics.</li>
+                            <li><strong>Predictive Queueing:</strong> Pre-buffers upcoming video chapters prior to prior item termination.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Ent01.png" alt="Entertainment 1" class="slide-image">
+                        <img src="Ent02.png" alt="Entertainment 2" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="16">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>Clinical Diagnostics Support</h2>
+                        <ul>
+                            <li><strong>Imaging Analytics:</strong> Scans complex diagnostic assets to flag subtle tissue variance for review.</li>
+                            <li><strong>Wearable Telemetry:</strong> Evaluates heart rates continuously via wearable arrays to warn users of anomalies.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image019.png" alt="Medical Screening 1" class="slide-image">
+                        <img src="Image020.png" alt="Medical Screening 2" class="slide-image">
+                        <img src="Image021.png" alt="Medical Screening 3" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="16">
+                <h2>Operational Reflection Point</h2>
+                <p>Consider these two questions regarding your daily operational processes:</p>
+                <ul>
+                    <li>Which two backend AI workflows interacted with your processes before this session started?</li>
+                    <li>Which repetitive document workflow in your unit would benefit from structured automation?</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="16">
+                <h2>Summary of Core Industry Use Cases</h2>
+                <ul>
+                    <li>AI operations extend beyond technical departments to optimize standard corporate administrative functions.</li>
+                    <li>The core goal remains simplifying high-volume tasks to protect strategic human planning time.</li>
+                </ul>
+            </div>
+
+            <!-- SECTION 4 -->
+            <div class="slide" data-section="28">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>Section 4: Generative AI Ecosystem</h2>
+                        <p><strong>Definition:</strong> Generative AI models go beyond analysis to synthesize brand-new textual drafts, images, code blocks, or schematic arrays based on plain-language text prompts.</p>
+                        <ul>
+                            <li>Drafts complete structural updates or notices entirely from raw bullets.</li>
+                            <li>Assembles functional corporate imagery and design mockups quickly.</li>
+                            <li>Writes and explains functional spreadsheet equations or custom macro procedures.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image022.png" alt="Generative AI Engine 1" class="slide-image">
+                        <img src="Image023.png" alt="Generative AI Engine 2" class="slide-image">
+                        <img src="Image024.png" alt="Generative AI Engine 3" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="28">
+                <h2>Analytical AI vs. Generative AI</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Analytical AI (Evaluation Blocks)</th>
+                            <th>Generative AI (Synthesis Engines)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Processes files to filter, organize, or flag input parameters.</td>
+                            <td>Synthesizes completely unique textual or visual deliverables.</td>
+                        </tr>
+                        <tr>
+                            <td>*Example:* Flagging an email as spam based on header syntax.</td>
+                            <td>*Example:* Drafting an itemized response from raw internal meeting notes.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="slide" data-section="28">
+                <h2>Functional Capabilities of GenAI Models</h2>
+                <ul>
+                    <li>**Text Synthesis:** Writes clear procedural guides, custom memos, and foundational email frameworks.</li>
+                    <li>**Document Synthesis:** Condenses complex multi-page policy updates into clear, digestible summaries.</li>
+                    <li>**Visual Generation:** Creates training icons, notice layouts, and presentation vectors.</li>
+                    <li>**Ideation Mapping:** Generates alternative operational plans or engagement strategies for evaluation.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="28">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>Text Generation Flow Example</h2>
+                        <p>See how language interfaces organize scattered inputs into refined layouts:</p>
+                        <ul>
+                            <li>**Raw User Input:** *"Need a quick message for my manager. Off sick today, will check urgent emails."*</li>
+                            <li>**Model Output Generation:** Automatically builds out clear subject references, professional terms, and structured placeholders for easy editing.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image025.png" alt="Text Generation 1" class="slide-image">
+                        <img src="Text01.png" alt="Text Generation 2" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="28">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>Image Generation Flow Example</h2>
+                        <p>Transforms descriptive language strings directly into clear visual diagrams:</p>
+                        <ul>
+                            <li>**User Description String:** *"An eco-friendly modern office facility featuring rooftop gardens under a sunset sky, vector format."*</li>
+                            <li>**Model Generation:** Parses structural descriptions to compose a new image asset instantly.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Digital01.png" alt="Digital Image Creation" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="28">
+                <h2>Processing Complex Manuals</h2>
+                <p>This approach saves valuable time when navigating high-volume technical documentation:</p>
+                <ul>
+                    <li>**The Challenge:** Reading a 40-page equipment or regulatory update manual.</li>
+                    <li>**The AI Solution:** Pass the text file into the model and request a summary of the 5 most critical rules alongside any non-compliance penalties.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="28">
+                <h2>Standard Search vs. Contextual Assistants</h2>
+                <ul>
+                    <li>**Traditional Web Search:** Queries matching keywords $\rightarrow$ presents a list of links $\rightarrow$ requires manual reading and consolidation.</li>
+                    <li>**Contextual Assistants:** Evaluates the core prompt query directly $\rightarrow$ reads cross-web context $\rightarrow$ returns a single cohesive answer.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="28">
+                <h2>Leading Professional Tools</h2>
+                <ul>
+                    <li><strong>ChatGPT (OpenAI):</strong> Exceptional for processing complex text, editing styles, and brainstorming strategies.</li>
+                    <li><strong>Google Gemini:</strong> Integrated directly with Google Ecosystem data pipelines for reliable web research.</li>
+                    <li><strong>Microsoft Copilot:</strong> Embedded directly into enterprise office applications to speed up document drafting.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="28">
+                <h2>Live Technical Demonstration</h2>
+                <p>Let's look at how the interface handles typical daily operations tasks in real time:</p>
+                <ul>
+                    <li>Drafting an internal operational notice regarding scheduled power maintenance shutdowns.</li>
+                    <li>Transforming disorganized personal notes into clean, structured markdown tables.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="28">
+                <h2>Interactive Prompt Assembly Workshop</h2>
+                <p>Let's build a multi-stage instructional string together:</p>
+                <ul>
+                    <li>Select an operational challenge and prompt the assistant to draft a response plan.</li>
+                    <li>Refine the draft style by requesting shifts in tone or formatting.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="28">
+                <h2>How GenAI Alters Workflow Speeds</h2>
+                <ul>
+                    <li>**Eliminates Blank-Page Blocks:** Generates solid starting frameworks that can be quickly edited for final production.</li>
+                    <li>**Lowers Technical Hurdles:** Enables text-based creation of complex spreadsheet calculation models.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="28">
+                <h2>Critical Awareness: Model Hallucinations</h2>
+                <p>Even advanced AI systems require careful human oversight due to specific operational limitations:</p>
+                <ul>
+                    <li>**Hallucinations:** Models can state incorrect statistics or dates with absolute confidence.</li>
+                    <li>**Lack of Internal Context:** Systems do not know company-specific workflows unless explicitly provided.</li>
+                </ul>
+                <blockquote>Data Validation Standard: Double-check all financial stats, dates, and legal references manually before final release.</blockquote>
+            </div>
+
+            <div class="slide" data-section="28">
+                <h2>Ecosystem Core Wrap-up</h2>
+                <ul>
+                    <li>Generative AI serves as an exceptionally fast drafting partner across text and design workflows.</li>
+                    <li>Final verification and operational sign-off always remain a human responsibility.</li>
+                </ul>
+            </div>
+
+            <!-- SECTION 5 -->
+            <div class="slide" data-section="41">
+                <h2>Section 5: AI in Everyday Workplace Tasks</h2>
+                <p>Let's transition from concepts to practice. We will look at how to leverage free assistant web layouts to streamline your regular administrative duties safely.</p>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>The 4-Step Implementation Loop</h2>
+                <p>Interacting with an AI model follows a basic conversational loop:</p>
+                <ul>
+                    <li><strong>1. Launch:</strong> Open your approved enterprise assistant tool interface.</li>
+                    <li><strong>2. Instruction (Prompt):</strong> Type a clear, plain-language instruction explaining the required deliverable.</li>
+                    <li><strong>3. Verification:</strong> Carefully read the output to check for factual consistency and accurate tone.</li>
+                    <li><strong>4. Refinement:</strong> Provide follow-up guidance to trim text length or adjust presentation styles.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="41">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>Application 1: Accelerating Email Production</h2>
+                        <p>Stop spending valuable time staring at blank emails trying to find the perfect phrasing:</p>
+                        <ul>
+                            <li>Type your core message points out quickly in a rough draft format.</li>
+                            <li>Instruct the AI model to organize these points into a professional update email.</li>
+                            <li>The system will instantly output a structured corporate note ready for review.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image016.png" alt="Email Generation" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>Email Execution Exercise</h2>
+                <p>Imagine you need to request an updated component price catalog from an engineering vendor:</p>
+                <ul>
+                    <li>**The Setup:** Tell the tool which components you need cataloged and specify your deadline date.</li>
+                    <li>**The Result:** The model will instantly create a polite, professional supplier request memo.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>Application 2: Document Processing & Summarization</h2>
+                <p>When you need to digest large amounts of information under tight deadlines:</p>
+                <ul>
+                    <li>*"Read this 10-paragraph safety report text block and summarize the 3 main active rules for our plant floor staff."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="41">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>Application 3: Strategic Ideation Partners</h2>
+                        <p>Use AI to expand your brainstorming horizons when launching new initiatives:</p>
+                        <ul>
+                            <li>Explain the clear goals of your upcoming department initiative to the assistant.</li>
+                            <li>Add explicit constraints, such as keeping costs low or minimizing operational disruption.</li>
+                            <li>Review the 10 distinct campaign options generated by the tool to pick the best fit.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Brain01.png" alt="Initiative Ideas" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>Brainstorming Workshop Scenario</h2>
+                <p>Let's plan a specialized internal workplace safety campaign for the production floor:</p>
+                <ul>
+                    <li>**The Prompt Strategy:** Request 5 low-cost, high-engagement 15-minute field hazard activities.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>Application 4: Polishing Draft Memos</h2>
+                <p>See how easily a direct note can be transformed into a polished internal memo:</p>
+                <ul>
+                    <li>**Original Draft:** *"Shift schedules are changing next month. Don't be late or management will take action."*</li>
+                    <li>**AI Instruction String:** *"Rewrite this sentence into a formal, professional internal memo notice."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>Application 5: Dynamic Local Language Translation</h2>
+                <p>Bridge language gaps with site teams across different regional operations:</p>
+                <ul>
+                    <li>Translate english operational safety standards into clear local languages like Marathi or Hindi instantly.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>Application 6: Formulating Complex Spreadsheet Logic</h2>
+                <p>Get instant help with spreadsheet calculations without wasting time hunting through manuals:</p>
+                <ul>
+                    <li>**The Prompt:** *"Write an Excel formula that finds the exact day difference between joining date column B and resignation column C."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>Application 7: Personal Task Planning</h2>
+                <p>These tools are also incredibly useful for organizing personal schedules and tasks:</p>
+                <ul>
+                    <li>Generate clear day-by-day travel itineraries or structured health plans from your custom guidelines.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>Detailed Context Inputs Yield Superior Outputs</h2>
+                <p>The accuracy and quality of your results scale directly with the details you provide:</p>
+                <ul>
+                    <li>❌ <strong>Incomplete Input:** *"Write a leave letter."* $\rightarrow$ Yields generic, unhelpful form text.</li>
+                    <li>✔ <strong>Detailed Input:** *"Draft a professional email requesting a 3-day medical leave due to a family emergency. Note that I will check urgent emails periodically."* $\rightarrow$ Yields an accurate, ready-to-send draft.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>Prompt Refinement Exercise</h2>
+                <p>Let's take a basic instruction string and turn it into a high-performance prompt:</p>
+                <ul>
+                    <li>**Baseline Input:** *"Write a safety notice."* $\rightarrow$ Let's add target audience, required PPE compliance items, and clear bullet-point formatting.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>3 Common Beginner Errors to Avoid</h2>
+                <ul>
+                    <li>Providing short, vague instructions and expecting an exhaustive corporate policy framework.</li>
+                    <li>Trusting outputs blindly and sending generated text forward without checking it first.</li>
+                    <li>Pastings sensitive internal company logs or personal identification details into public tools. **(Never do this!)**</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>The Execution Rule</h2>
+                <blockquote>Treat your AI assistant like a highly capable, newly hired intern. Provide clear context, define the goals, and always review their work thoroughly before final approval.</blockquote>
+            </div>
+
+            <div class="slide" data-section="41">
+                <h2>Summary: Section Key Takeaways</h2>
+                <ul>
+                    <li>AI assistants drastically reduce the time spent drafting text, parsing large logs, and building formulas.</li>
+                    <li>Output quality depends heavily on the clarity and context provided in your input prompt.</li>
+                </ul>
+            </div>
+
+            <!-- SECTION 6 -->
+            <div class="slide" data-section="60">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>Section 6: Mastering Prompts</h2>
+                        <p><strong>Definition:</strong> A 'prompt' is the complete sequence of text instructions, constraints, and background details you type into an AI interface to guide its output.</p>
+                        <ul>
+                            <li>Prompting is the core skill required to communicate effectively with AI systems.</li>
+                            <li>Your specific words control the tone, structural format, and detail of the final output.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Prompt01.png" alt="Accurate Instruction Giving" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="60">
+                <h2>Why Precise Inputs Matter</h2>
+                <p>AI models have no mind reading capabilities or prior awareness of your company's unique culture. Vague prompts lead directly to generic, unhelpful responses. Clear, well-structured phrasing ensures you get high-quality, actionable results right away.</p>
+            </div>
+
+            <div class="slide" data-section="60">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>Prompt Case Study: Vague vs. Well-Structured</h2>
+                        <ul>
+                            <li>**The Vague Approach:** *"Write a notice."* $\rightarrow$ Results in a generic, unfocused wall of text that requires extensive editing.</li>
+                            <li>**The Structured Approach:** Defining the explicit context, target audience, and required formatting saves massive amounts of editing time.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Image026.png" alt="Prompt Comparison 1" class="slide-image">
+                        <img src="Image027.png" alt="Prompt Comparison 2" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="60">
+                <h2>The 4 Pillars of a Perfect Prompt</h2>
+                <ul>
+                    <li>🎯 <strong>1. Clear Objective:** Define the core task using direct, action-oriented verbs.</li>
+                    <li>📊 <strong>2. Explicit Constraints:** Set clear limits for length, style guidelines, or specific numbers.</li>
+                    <li>🏢 <strong>3. Rich Context:** Provide relevant background details regarding the target audience and underlying situation.</li>
+                    <li>📋 <strong>4. Output Format:** Specify the exact structure you want, such as tables or bullet points.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="60">
+                <h2>Pillar 1: Clear Objective (Be Direct)</h2>
+                <p>State your main goal immediately instead of using vague or circular descriptions:</p>
+                <ul>
+                    <li>❌ <strong>Vague:** *"Write something about what our team does for workplace safety."*</li>
+                    <li>✔ <strong>Clear:** *"List the 5 primary responsibilities of our HR team in ensuring factory safety compliance."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="60">
+                <h2>Pillar 2: Explicit Constraints (Be Specific)</h2>
+                <p>Set clear boundaries to keep the model's output focused and on-track:</p>
+                <ul>
+                    <li>❌ <strong>Vague:** *"Give me some fun ideas for a company event."*</li>
+                    <li>✔ <strong>Specific:** *"Suggest 6 interactive team-building activities that take under 15 minutes and can be run inside a conference room."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="60">
+                <h2>Pillar 3: Rich Context (Provide Background)</h2>
+                <p>Providing clear situational context allows the model to match your required professional tone perfectly:</p>
+                <ul>
+                    <li>❌ <strong>Context-Free:** *"Write a message about the biometric system being down."*</li>
+                    <li>✔ <strong>Context-Rich:** *"The main biometric scanner will be offline for repairs this Saturday. Draft an internal memo reminding factory supervisors to log team attendance manually."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="60">
+                <h2>Pillar 4: Output Format (Define Layout)</h2>
+                <p>Choose exactly how you want your information organized and displayed on screen:</p>
+                <ul>
+                    <li>❌ <strong>Unformatted:** *"Explain the core changes in the new Wage Code rules."*</li>
+                    <li>✔ <strong>Structured:** *"Create a clean comparison table summarizing the changes in the 2019 Wage Code, with 'Old Rules' in the left column and 'New Rules' in the right."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="60">
+                <h2>The Core Prompt Formula</h2>
+                <p>Always remember that a highly effective prompt balances these four elements perfectly:</p>
+                <p style="font-size: 1.3rem; text-align: center; color: var(--secondary); font-weight: bold; margin: 25px 0;">
+                    $$\text{Core Objective} + \text{Explicit Constraints} + \text{Rich Context} + \text{Output Format}$$
+                </p>
+            </div>
+
+            <div class="slide" data-section="60">
+                <h2>Ready-to-Use Operational Prompts</h2>
+                <ul>
+                    <li>*"Review the following email draft and refine it to sound more professional, clear, and polite."*</li>
+                    <li>*"Simplify this complex paragraph into clear, straightforward language that is easy for a new trainee to understand."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="60">
+                <h2>Interactive Prompt Building Workshop</h2>
+                <p>Let's apply our formula to build a highly targeted job description prompt:</p>
+                <ul>
+                    <li>**The Starting Point:** *"Write a job description."* $\rightarrow$ Let's add the role (Junior Data Analyst), experience tier (Entry Level), core duties, and a bulleted layout requirement.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="60">
+                <h2>Advanced Technique: Roleplay Masking</h2>
+                <p>Assigning a specific professional persona to the AI model significantly improves the depth and quality of its responses:</p>
+                <ul>
+                    <li>**Example Prompt:** *"Act as an expert labor compliance attorney with 30 years of industrial experience. Review this warehouse safety draft for potential compliance risks."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="60">
+                <h2>Iterative Refinement Loops</h2>
+                <p>You don't have to settle for the very first response a model generates. Treat it as a conversation and refine the results:</p>
+                <ul>
+                    <li>*"This draft is too long. Condense it to half its size while preserving the core action points."*</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="60">
+                <h2>Handling Complex Projects: The Multi-Step Strategy</h2>
+                <p>When drafting large policies or exhaustive reports, break the task down into smaller steps instead of requesting it all at once:</p>
+                <ul>
+                    <li>**Step 1:** Ask the model to generate a broad outline index or structural framework first.</li>
+                    <li>**Step 2:** Review the outline, select the strongest sections, and instruct the model to expand on those parts step-by-step.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="60">
+                <h2>3 Critical Prompt Pitfalls to Avoid</h2>
+                <ul>
+                    <li>Jramming multiple conflicting instructions into one massive, confusing block of text.</li>
+                    <li>Omitting details about who the audience is or how the text should be formatted.</li>
+                    <li>Accepting the first response without attempting to refine or iterate on the text.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="60">
+                <h2>Quick Practical Exercise</h2>
+                <p>Apply our prompt formula mentally to address one of these workplace situations:</p>
+                <ul>
+                    <li>**Scenario A:** Design a prompt to write an engaging invitation memo for an upcoming company-wide Town Hall meeting.</li>
+                    <li>**Scenario B:** Build a prompt to generate clear, step-by-step instructions for operating a new office printer safely.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="60">
+                <h2>Team Activity: Prompt Battle!</h2>
+                <ul>
+                    <li>We will split into two teams to tackle the same operational drafting task.</li>
+                    <li>Each team will build their own custom prompt, and we will compare how slight differences in phrasing change the final results.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="60">
+                <h2>The Golden Rule of Prompting</h2>
+                <blockquote>The clearer your instructions, the better the final output. Prompting is simply a clear conversation explaining a task to a colleague. Consistency comes with regular practice.</blockquote>
+            </div>
+
+            <div class="slide" data-section="60">
+                <h2>Section Summary Wrap-up</h2>
+                <ul>
+                    <li>A prompt is a direct written instruction set that guides machine outputs.</li>
+                    <li>Using our core formula ($\text{Objective} + \text{Context} + \text{Format}$) consistently produces excellent first-time results.</li>
+                </ul>
+            </div>
+
+            <!-- SECTION 7 -->
+            <div class="slide" data-section="71">
+                <h2>Section 7: Hands-on Practice</h2>
+                <p>It's time to put these concepts into practice! We will write prompts together to address real-world office scenarios. Don't worry about making mistakes—this is how we learn.</p>
+            </div>
+
+            <div class="slide" data-section="71">
+                <h2>Our Practice Routine</h2>
+                <ul>
+                    <li><strong>1. Review Scenario:** Read the assigned office scenario carefully to understand the goals.</li>
+                    <li><strong>2. Build Prompt:** Apply our core formula to write your instruction string in the interface.</li>
+                    <li><strong>3. Optimize:** Review the generated text and practice refining the output style.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="71">
+                <h2>Activity 1: Writing a Professional Email</h2>
+                <p><strong>Scenario:</strong> You need to inform your department head that your car is in the shop tomorrow, meaning you will arrive one hour late but will stay later to complete all your tasks.</p>
+                <ul>
+                    <li>Write a detailed prompt requesting a polite, professional notification draft.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="71">
+                <h2>Evaluating Our First Drafts</h2>
+                <ul>
+                    <li>Did the system format the draft correctly with a clear subject line and professional greeting right away?</li>
+                    <li>What small adjustments did you need to make to match your personal writing style?</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="71">
+                <h2>Activity 2: Simplifying Complex Policies</h2>
+                <p><strong>Scenario:</strong> Copy a dense paragraph of legal jargon from a standard compliance or safety manual.</p>
+                <ul>
+                    <li>Instruct your AI assistant to translate the text into 3 simple, easy-to-understand safety rules for floor workers.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="71">
+                <h2>Activity 3: High-Volume Brainstorming Challenge</h2>
+                <p><strong>Scenario:</strong> Brainstorm 5 practical, low-cost ways to reduce food waste and improve cleanliness in the staff cafeteria.</p>
+                <ul>
+                    <li>Ensure your prompt limits the ideas to simple, actionable steps that require minimal administrative overhead.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="71">
+                <h2>Activity 4: Transforming Difficult Communications</h2>
+                <p><strong>Scenario:</strong> Refine this direct, poorly phrased message: *'Everyone must fill out timesheets by Friday afternoon. Fail to do this and pay will be delayed. Don't complain to us.'*</p>
+                <ul>
+                    <li>Write a prompt to turn this into a polite but firm professional compliance notice.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="71">
+                <h2>Activity 5: Custom Workplace Scenario Practice</h2>
+                <p><strong>Scenario:</strong> Select a repetitive task from your actual weekly workload, such as drafting a meeting agenda or status report.</p>
+                <ul>
+                    <li>Build a specific prompt for this task and evaluate the model's response.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="71">
+                <h2>Peer Review & Group Discussion</h2>
+                <ul>
+                    <li>We will share selected participant prompts and outputs on the main screen.</li>
+                    <li>Let's discuss what worked well and identify minor adjustments that could make the results even stronger.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="71">
+                <h2>Core Lessons from Hands-on Practice</h2>
+                <ul>
+                    <li>Moving away from vague terms toward specific details completely changes the quality of AI outputs.</li>
+                    <li>Guiding a model through iterative feedback is significantly faster than manually rewriting drafts yourself.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="71">
+                <h2>Building Operational Confidence</h2>
+                <p style="text-align: center; font-size: 1.3rem; font-weight: bold; color: var(--secondary); margin-top: 30px;">
+                    Excellent job! You've successfully written custom prompts, iterated on drafts, and used AI to solve real operational tasks. Welcome to the world of smart workflows! 🎉
+                </p>
+            </div>
+
+            <!-- SECTION 8 -->
+            <div class="slide" data-section="81">
+                <h2>Section 8: Workplace Productivity</h2>
+                <p>AI tools are highly effective resources designed to boost efficiency, lower daily operational stress, and accelerate workflows across every department.</p>
+            </div>
+
+            <div class="slide" data-section="81">
+                <h2>Daily Operational Advantages</h2>
+                <ul>
+                    <li>📝 <strong>Documentation Speed:** Accelerates the creation of formal letters, shift memos, and email frameworks.</li>
+                    <li>🗣 <strong>Polished Communication:** Maintains an objective, professional tone across all localized team messaging.</li>
+                    <li>📊 <strong>Data Management Support:** Simplifies building spreadsheet calculation logic and organizing messy source matrices.</li>
+                    <li>📅 <strong>Project Scheduling:** Speeds up planning meeting agendas, training timetables, and rollout check-lists.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="81">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>Streamlining Daily Communication</h2>
+                        <ul>
+                            <li>Transforms rough personal bullets into complete, professional business documentation.</li>
+                            <li>Adjusts the tone of a memo instantly to suit different scenarios, from firm vendor notices to supportive internal updates.</li>
+                            <li>Creates reusable response frameworks to address repetitive customer inquiries efficiently.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Pr01.png" alt="Professional Communication Flow" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="81">
+                <h2>Policy Drafting & Reports</h2>
+                <ul>
+                    <li>Converts messy meeting notes into structured, clear, and actionable meeting summaries (MoM) instantly.</li>
+                    <li>Generates foundational starting frameworks for standard operating procedures (SOPs) or training handbooks.</li>
+                    <li>Simplifies highly technical manuals into clear, step-by-step instructional guides for operations staff.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="81">
+                <h2>Smart Data & Spreadsheet Management</h2>
+                <ul>
+                    <li>Describe your calculation goals in plain language to get accurate Excel formulas (like VLOOKUP or nested IF blocks) instantly.</li>
+                    <li>Debug broken spreadsheet formulas quickly with clear, step-by-step troubleshooting advice.</li>
+                    <li>Re-organize inconsistent formatting across address entries or name fields into structured tables automatically.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="81">
+                <div class="split-layout">
+                    <div class="split-content">
+                        <h2>Optimizing Administrative & HR Workflows</h2>
+                        <ul>
+                            <li><strong>Job Descriptions:** Input a title and core education requirements to generate detailed candidate accountability profiles instantly.</li>
+                            <li><strong>Interview Blueprints:** Generate tailored, capability-focused interview questions for evaluating specific job candidates.</li>
+                            <li><strong>Company Announcements:** Create clear, engaging notices for company events, holiday updates, or policy changes.</li>
+                        </ul>
+                    </div>
+                    <div class="split-media">
+                        <img src="Speed01.png" alt="HR Speedup 1" class="slide-image">
+                        <img src="Speed02.png" alt="HR Speedup 2" class="slide-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide" data-section="81">
+                <h2>Flawless Event & Meeting Organization</h2>
+                <ul>
+                    <li>Build precise, minute-by-minute schedules for team projects or complex training workshops.</li>
+                    <li>Generate comprehensive onboarding checklists to ensure new hires have a seamless first day.</li>
+                    <li>Keep meetings focused and productive by generating clear, structured agendas ahead of time.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="81">
+                <h2>Your On-Demand Professional Tutor</h2>
+                <p>Use your AI assistant as a private, 24/7 learning partner to safely build your professional skills:</p>
+                <ul>
+                    <li>Break down complex regulatory codes, labor laws, or compliance rules into simple, clear language.</li>
+                    <li>Learn advanced software features with clear, step-by-step tutorials tailored to your pace.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="81">
+                <h2>The Main Benefit: Saving Valuable Drafting Time</h2>
+                <p>Starting a document from scratch is often the most time-consuming part of writing. AI assistants solve this by generating a solid first draft in seconds. This allows you to skip the blank-page phase and dive straight into editing and finalizing the text.</p>
+            </div>
+
+            <div class="slide" data-section="81">
+                <h2>Workflow Transformation: Before vs. After</h2>
+                <ul>
+                    <li>**The Traditional Path:** Staring at a blank document $\rightarrow$ Writing slowly line-by-line $\rightarrow$ Spending an hour editing spelling and layout $\rightarrow$ Completion.</li>
+                    <li>**The Smart Path:** Inputting core notes into AI $\rightarrow$ Reviewing the generated first draft instantly $\rightarrow$ Making targeted updates $\rightarrow$ Finished in 5 minutes!</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="81">
+                <h2>The Importance of Human Oversight</h2>
+                <blockquote>AI systems are powerful drafting tools, but they lack human experience. Your unique professional judgment, domain expertise, and deep understanding of company culture are what turn a raw draft into a polished, successful deliverable.</blockquote>
+            </div>
+
+            <div class="slide" data-section="81">
+                <h2>Real-World Efficiency Scenario</h2>
+                <p>Imagine you need to announce an urgent safety audit schedule next Tuesday:</p>
+                <ul>
+                    <li>**Without AI:** Spending 15 minutes trying to phrase the notice so that the team takes it seriously without causing panic.</li>
+                    <li>**With AI assistance:** Prompting the model to write a firm but professional compliance notice in 2 seconds, leaving you ready to send it out immediately.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="81">
+                <h2>Evaluating Your Work Week</h2>
+                <p>Take a close look at your regular weekly schedule and ask yourself:</p>
+                <ul>
+                    <li>Which two administrative tasks consume the most time purely due to formatting, typing, or drafting?</li>
+                    <li>How can you use an AI assistant next week to streamline those specific tasks?</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="81">
+                <h2>Open Group Discussion</h2>
+                <ul>
+                    <li>Which operational workflow will you optimize first using AI tools when you return to your desk tomorrow?</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="81">
+                <h2>Section Summary Wrap-up</h2>
+                <ul>
+                    <li>AI assistants eliminate administrative delays by handling time-consuming, repetitive writing tasks instantly.</li>
+                    <li>Streamlining routine documentation allows you to focus your energy on strategic, high-value projects.</li>
+                </ul>
+            </div>
+
+            <!-- SECTION 9 -->
+            <div class="slide" data-section="95">
+                <h2>Section 9: Limitations of AI (Reality Check)</h2>
+                <p>While AI tools are incredibly powerful, they are ultimately just software programs. They do not possess genuine human understanding, common sense, or real-world ethics.</p>
+            </div>
+
+            <div class="slide" data-section="95">
+                <h2>AI Models Can Generate Factual Errors</h2>
+                <ul>
+                    <li>**Hallucinations:** Software can present completely inaccurate statistics, dates, or legal rules as absolute truth.</li>
+                    <li>Providing vague or unclear instructions can cause the system to misinterpret your context entirely.</li>
+                </ul>
+                <blockquote>The Core Quality Rule: Always manually verify all metrics, financial calculations, and compliance rules before final production.</blockquote>
+            </div>
+
+            <div class="slide" data-section="95">
+                <h2>AI Lacks True Contextual Understanding</h2>
+                <ul>
+                    <li>Models do not understand your high-level business goals or the nuanced relationships between your team members.</li>
+                    <li>The system simply predicts the most likely next words in a sentence based on patterns in its training data.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="95">
+                <h2>The Risks of Over-Reliance</h2>
+                <ul>
+                    <li>Copying and pasting text directly without reviewing it can lead to embarrassing mistakes and miscommunications.</li>
+                    <li>Depending too heavily on software for basic tasks can dull your personal critical thinking and problem-solving skills over time.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="95">
+                <h2>Limited Situational Awareness</h2>
+                <p>AI models only know the specific details you type into the prompt box. They are completely unaware of your company's unwritten rules, office history, or unique internal culture.</p>
+            </div>
+
+            <div class="slide" data-section="95">
+                <h2>The Smart Professional's Motto</h2>
+                <p>Keep this vital rule in mind whenever you use digital automation tools in your daily work:</p>
+                <p style="font-size: 2rem; text-align: center; color: var(--accent); font-weight: bold; margin: 30px 0;">
+                    "Trust... but Verify!"
+                </p>
+            </div>
+
+            <div class="slide" data-section="95">
+                <h2>Points to Consider</h2>
+                <ul>
+                    <li>Would you ever send a major new policy memo to your entire team without reading it through first?</li>
+                </ul>
+            </div>
+
+            <!-- SECTION 10 -->
+            <div class="slide" data-section="101">
+                <h2>Section 10: Data Privacy & Ethics (AI Safety)</h2>
+                <p>While boosting output speed is important, protecting company data privacy and maintaining professional ethics is absolutely critical.</p>
+            </div>
+
+            <div class="slide" data-section="101">
+                <h2>Data Privacy: Protecting Confidential Information</h2>
+                <p>Public AI tools save your inputs to train and improve their models. To keep company data secure, **never** paste these items into prompt boxes:</p>
+                <ul>
+                    <li>❌ Private employee details (such as salary records, home addresses, or private medical logs).</li>
+                    <li>❌ Sensitive company financial data, internal audit files, or confidential business plans.</li>
+                    <li>❌ Personal login passwords, bank routing numbers, or security verification codes (OTPs).</li>
+                </ul>
+                <blockquote>The Data Security Rule: If a piece of information cannot be shared publicly with a stranger, it must never be pasted into a public AI interface.</blockquote>
+            </div>
+
+            <div class="slide" data-section="101">
+                <h2>Always Double-Check Regulatory References</h2>
+                <p>Before finalizing any document, ensure all compliance citations, dates, and formulas match official corporate and government records perfectly.</p>
+            </div>
+
+            <div class="slide" data-section="101">
+                <h2>Ethical & Accountable Tool Use</h2>
+                <ul>
+                    <li>Leverage AI tools strictly to improve your personal productivity and help you work more efficiently.</li>
+                    <li>Never use automated systems to generate deceptive materials or spread inaccurate information.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="101">
+                <h2>Recognizing Systemic Bias in Data</h2>
+                <p>AI systems learn from historical internet text, meaning human biases can easily slip into the model's outputs. Be especially careful when drafting content around sensitive or social topics.</p>
+            </div>
+
+            <div class="slide" data-section="101">
+                <h2>The Success Formula</h2>
+                <p style="font-size: 1.3rem; text-align: center; color: var(--primary); font-weight: bold; margin: 30px 0;">
+                    $$\text{AI Processing Speed} + \text{Human Oversight \& Strategy} = \text{Flawless Professional Work}$$
+                </p>
+            </div>
+
+            <div class="slide" data-section="101">
+                <h2>Your Final Sign-off Checklist</h2>
+                <p>Ask yourself these 3 critical questions before printing or emailing any AI-generated document:</p>
+                <ul>
+                    <li>📦 <strong>Factual Check:** Are all metrics and compliance references verified against official source data?</li>
+                    <li>🗣 <strong>Tone Check:** Does the writing style match our corporate identity and professional standards?</li>
+                    <li>🔐 <strong>Privacy Check:** Have all sensitive personal details and internal records been completely removed from the prompt log?</li>
+                </ul>
+            </div>
+
+            <!-- SECTION 11 -->
+            <div class="slide" data-section="107">
+                <h2>Section 11: Future Frameworks</h2>
+                <p>AI technology is evolving at an incredible pace and will soon be embedded in all our standard office software. Mastering these basic tools today prepares you for tomorrow's workplace.</p>
+            </div>
+
+            <div class="slide" data-section="107">
+                <h2>AI and the Future of Work</h2>
+                <ul>
+                    <li>Repetitive tasks like text formatting, data sorting, and document translation will become fully automated.</li>
+                    <li>Crucial human skills like empathy, strategic leadership, and complex problem-solving cannot be replaced by machines.</li>
+                </ul>
+                <blockquote>Core Insight: AI will not replace professionals, but professionals who master AI will naturally outpace those who do not.</blockquote>
+            </div>
+
+            <div class="slide" data-section="107">
+                <h2>3 Essential Skills for Career Growth</h2>
+                <p>Focus on building these three key strengths to thrive in an evolving digital workplace:</p>
+                <ul>
+                    <li><strong>Prompt Engineering:** Learning to give computers clear, detailed instructions to get high-quality results.</li>
+                    <li><strong>Critical Evaluation:** Spotting factual errors in automated drafts and refining the work effectively.</li>
+                    <li><strong>Adaptability:** Embracing new software updates with confidence and curiosity instead of fear.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="107">
+                <h2>Shift Your Perspective: Embrace the Tool</h2>
+                <ul>
+                    <li>❌ **Don't Worry:** This technology is here to support you, not to make your role obsolete.</li>
+                    <li>✔ **Keep Learning:** Treat AI as a tireless, highly efficient digital assistant.</li>
+                    <li>✔ **Grow Your Impact:** Use the time you save to focus on high-level, impactful business projects.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="107">
+                <h2>Start Small, but Start Today!</h2>
+                <p>You don't need a computer science degree to get started. Open an approved assistant tool tomorrow and use it to outline a basic letter, debug a formula, or summarize a long report. The more you use it, the easier it gets!</p>
+            </div>
+
+            <div class="slide" data-section="107">
+                <h2>Set a Personal Workflow Goal</h2>
+                <p>Before we conclude today's session, commit to one simple practical goal:</p>
+                <ul>
+                    <li>Identify one repetitive writing or formatting task that regularly slows you down.</li>
+                    <li>Commit to using an AI assistant to generate the first draft of that document next week.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="107">
+                <h2>Final Training Summary</h2>
+                <ul>
+                    <li>AI is a powerful operational tool that works by finding patterns in data to simplify complex tasks.</li>
+                    <li>Verifying factual accuracy and maintaining strict data privacy are always your final responsibilities.</li>
+                </ul>
+            </div>
+
+            <div class="slide" data-section="107" style="text-align: center; align-items: center;">
+                <h1>Thank You!</h1>
+                <p style="color: var(--secondary); font-size: 1.5rem; margin-top: 15px;">Questions & Answers</p>
+                <p style="margin-top: 30px; font-size: 1.1rem; color: #64748b;">Thank you for your active participation today!</p>
+                
+                <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center;">
+                    <button class="nav-btn" onclick="jumpToSection('0')">Restart Presentation</button>
+                    <button class="nav-btn secondary-btn" onclick="window.location.href='Test in English.html'">Go To Test</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="controls-bar">
+            <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>Back</button>
+            <div class="progress-indicator" id="progressText">Slide 1 of 65</div>
+            <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next</button>
+        </div>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const progressText = document.getElementById('progressText');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const sectionJump = document.getElementById('sectionJump');
+        let currentSlideIndex = 0;
+
+        function updateControls() {
+            prevBtn.disabled = currentSlideIndex === 0;
+            nextBtn.disabled = currentSlideIndex === slides.length - 1;
+            progressText.innerText = `Slide ${currentSlideIndex + 1} of ${slides.length}`;
+            
+            // Auto-sync dropdown menu layout while normal navigating via buttons
+            const currentSectionVal = slides[currentSlideIndex].getAttribute('data-section');
+            if (currentSectionVal !== null) {
+                sectionJump.value = currentSectionVal;
+            }
+        }
+
+        function changeSlide(direction) {
+            slides[currentSlideIndex].classList.remove('active');
+            currentSlideIndex += direction;
+            
+            if(currentSlideIndex < 0) currentSlideIndex = 0;
+            if(currentSlideIndex >= slides.length) currentSlideIndex = slides.length - 1;
+            
+            slides[currentSlideIndex].classList.add('active');
+            slides[currentSlideIndex].scrollTop = 0;
+            updateControls();
+        }
+
+        function jumpToSection(sectionValString) {
+            // Dynamically scan the slide array to find the first index that contains the targeted section variable
+            let targetIdx = 0;
+            for (let i = 0; i < slides.length; i++) {
+                if (slides[i].getAttribute('data-section') === sectionValString) {
+                    targetIdx = i;
+                    break;
+                }
+            }
+            
+            slides[currentSlideIndex].classList.remove('active');
+            currentSlideIndex = targetIdx;
+            slides[currentSlideIndex].classList.add('active');
+            slides[currentSlideIndex].scrollTop = 0;
+            updateControls();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if(currentSlideIndex < slides.length - 1) changeSlide(1);
+            } else if (e.key === 'ArrowLeft') {
+                if(currentSlideIndex > 0) changeSlide(-1);
+            }
+        });
+
+        updateControls();
+    </script>
+</body>
+</html>

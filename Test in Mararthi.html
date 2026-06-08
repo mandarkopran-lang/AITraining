@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI प्रशिक्षण - सर्वसमावेशक संवादपर चाचणी</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #0284c7;
+            --accent: #f59e0b;
+            --bg: #0f172a;
+            --text: #334155;
+            --slide-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: var(--slide-bg);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Top Module Jump-Bar */
+        .top-bar {
+            background: var(--primary);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--accent);
+            z-index: 10;
+        }
+
+        .top-bar h1 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .section-dropdown {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .section-dropdown option {
+            background: var(--bg);
+            color: white;
+        }
+
+        /* Slide Deck Platform */
+        .slide-deck {
+            flex: 1;
+            position: relative;
+            overflow-y: auto;
+            padding: 40px 60px;
+            background: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .quiz-slide {
+            display: none;
+            width: 100%;
+            max-width: 750px;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .quiz-slide.active {
+            display: block;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .module-indicator {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+            line-height: 1.4;
+            margin-bottom: 25px;
+        }
+
+        /* Options Mapping */
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 14px 20px;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+            color: #475569;
+        }
+
+        .option-label:hover {
+            background: #f0fdf4;
+            border-color: #22c55e;
+        }
+
+        .option-label.selected {
+            background: #e0f2fe;
+            border-color: var(--secondary);
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .option-label input[type="radio"] {
+            margin-right: 15px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--secondary);
+        }
+
+        /* Navigation Controls */
+        .control-panel {
+            background: #ffffff;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #e2e8f0;
+            z-index: 10;
+        }
+
+        .nav-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            background: #1e40af;
+        }
+
+        .nav-btn:disabled {
+            background: #cbd5e1;
+            color: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .submit-btn {
+            background: var(--accent);
+            color: #0f172a;
+        }
+
+        .submit-btn:hover {
+            background: #e08e0b;
+        }
+
+        .progress-indicator {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #64748b;
+        }
+
+        /* Interactive Dashboard */
+        .dashboard-card {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .dashboard-title {
+            font-size: 1.8rem;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+
+        .metrics-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 35px 0;
+        }
+
+        .metric-tile {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 25px;
+            min-width: 180px;
+        }
+
+        .metric-tile.pass {
+            border-color: #22c55e;
+            background: #f0fdf4;
+        }
+
+        .value-text {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .label-text {
+            font-size: 0.9rem;
+            color: #64748b;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+
+        .retry-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .retry-btn:hover {
+            background: #0369a1;
+        }
+    </style>
+</head>
+<body>
+
+<div class="presentation-container">
+    
+    <div class="top-bar">
+        <h1>AI जागरूकता आणि उपयोजन चाचणी</h1>
+        <select class="section-dropdown" id="moduleJump" onchange="jumpToModuleQuestion(this.value)">
+            <option value="0">विभाग २: AI चे मूलभूत नियम (Q1-Q4)</option>
+            <option value="4">विभाग ३: आपल्या आजूबाजूचे AI (Q5-Q12)</option>
+            <option value="12">विभाग ४: जनरेटिव्ह AI (Q13-Q15)</option>
+            <option value="15">विभाग ५ व ६: प्रॉम्टिंग आणि कार्यक्षमता (Q16-Q20)</option>
+        </select>
+    </div>
+
+    <form id="interactiveForm" onchange="markOptionSelected(event)">
+        <div class="slide-deck">
+
+            <div class="quiz-slide active" data-section="0" data-module="AI चे मूलभूत नियम">
+                <div class="module-indicator">विभाग २: AI चे मूलभूत नियम</div>
+                <p class="question-text">१. पारंपारिक नियम-आधारित सॉफ्टवेअर ऑटोमेशन आणि आधुनिक AI सिस्टीममध्ये कोणता मुख्य फरक आहे?</p>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q1" value="A"> ऑटोमेशन स्वतःचे कोड पाथ तयार करण्यासाठी डेटा पॅटर्नचा वापर करते.</label>
+                    <label class="option-label"><input type="radio" name="q1" value="B"> ऑटोमेशन पूर्णपणे पूर्व-निर्धारित, हार्डकोडेड (Predefined) नियमांवर चालते; तर AI स्वतः शिकून अनुकूल होते.</label>
+                    <label class="option-label"><input type="radio" name="q1" value="C"> दोन्हीमध्ये कोणताही फरक नाही; दोन्ही संज्ञा पूर्णपणे समान आहेत.</label>
+                </div>
+            </div>
+
+            <div class="quiz-slide" data-section="0" data-module="AI चे मूलभूत नियम">
+                <div class="module-indicator">विभाग २: AI चे मूलभूत नियम</div>
+                <p class="question-text">२. मशीन इंटेलिजन्स (Machine Intelligence) मॉडेल अचूकपणे काम करण्याची क्षमता कशी विकसित करते?</p>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q2" value="A"> कोणत्याही डेटाशिवाय सतत यादृच्छिक (Random) गणितीय समीकरणे चालवून.</label>
+                    <label class="option-label"><input type="radio" name="q2" value="B"> ऐतिहासिक आणि रिअल-टाइम प्रक्रिया डेटाच्या सतत संपर्कात येऊन (Data-driven learning).</label>
+                    <label class="option-label"><input type="radio" name="q2" value="C"> सॉफ्टवेअर इंजिनिअर्सद्वारे दर तासाला मॅन्युअल टेंपलेट डिझाइन बदलून.</label>
+                </div>
+            </div>
+
+            <div class="quiz-slide" data-section="0" data-module="AI चे मूलभूत नियम">
+                <div class="module-indicator">विभाग २: AI चे मूलभूत नियम</div>
+                <p class="question-text">३. विशिष्ट AI मॉडेलशिवाय सामान्य कॉम्प्युटर सिस्टीमला खालीलपैकी कोणत्या प्रकारच्या डेटावर प्रक्रिया करणे सर्वात कठीण जाते?</p>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q3" value="A"> एक्सेल शीट किंवा डेटाबेसमधील स्पष्ट संख्यात्मक डेटा (Tabular Data).</label>
+                    <label class="option-label"><input type="radio" name="q3" value="B"> अनस्ट्रक्चर्ड डेटा (Unstructured) जसे की संभाषणात्मक मजकूर, ऑडिओ कॉल्स आणि फोटो.</label>
+                    <label class="option-label"><input type="radio" name="q3" value="C"> केवळ बायनरी अटी (True/False रेकॉर्ड्स).</label>
+                </div>
+            </div>
+
+            <div class="quiz-slide" data-section="0" data-module="AI चे मूलभूत नियम">
+                <div class="module-indicator">विभाग २: AI चे मूलभूत नियम</div>
+                <p class="question-text">४. व्हिज्युअल डेटामध्ये (चित्रांमध्ये) विशिष्ट गोष्टी ओळखण्यासाठी (उदा. मांजर आणि कुत्रा) AI मॉडेल कशाचा वापर करते?</p>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q4" value="A"> चित्राच्या कडा (Edges), पिक्सेलची घनता आणि विशिष्ट आकारांचे पॅटर्न शोधून (Pattern Recognition).</label>
+                    <label class="option-label"><input type="radio" name="q4" value="B"> केवळ फाईलच्या नावावरून किंवा मेटाडेटावरून अंदाज लावून.</label>
+                    <label class="option-label"><input type="radio" name="q4" value="C"> प्रत्येक फ्रेम दाखवताना वापरकर्त्याकडून मॅन्युअल पडताळणी घेऊन.</label>
+                </div>
+            </div>
+
+            <div class="quiz-slide" data-section="4" data-module="आपल्या आजूबाजूचे AI">
+                <div class="module-indicator">विभाग ३: आपल्या आजूबाजूचे AI</div>
+                <p class="question-text">५. गुगल मॅप्स (Google Maps) सारखे ॲप्स रस्त्यावरील ट्रॅफिक आणि संभाव्य विलंबाचा अचूक अंदाज कसा लावतात?</p>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q5" value="A"> केवळ उपग्रहाद्वारे (Satellite) दर महिन्याला घेतलेल्या फोटोंचा अभ्यास करून.</label>
+                    <label class="option-label"><input type="radio" name="q5" value="B"> हजारो सक्रिय स्मार्टफोनच्या गती आणि लोकेशन डेटाचे सतत संकलन करून (Live Traffic Prediction).</label>
+                    <label class="option-label"><input type="radio" name="q5" value="C"> स्थानिक वाहतूक पोलिसांच्या जुन्या नोंदींवरून.</label>
+                </div>
+            </div>
+
+            <div class="quiz-slide" data-section="4" data-module="आपल्या आजूबाजूचे AI">
+                <div class="module-indicator">विभाग ३: आपल्या आजूबाजूचे AI</div>
+                <p class="question-text">६. यूट्यूब (YouTube) सारखे रेकमेंडेशन प्लॅटफॉर्म युजर्सना नवीन व्हिडिओ सुचवण्यासाठी कोणत्या अल्गोरिदमचा वापर करतात?</p>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q6" value="A"> जगातील सर्व युजर्सना कोणताही फरक न करता एकच समान व्हिडिओ दाखवून.</label>
+                    <label class="option-label"><input type="radio" name="q6" value="B"> युजरचा जुना इतिहास, आवडीनिवडी आणि तत्सम इतर युजर्सच्या प्रोफाइलचे विश्लेषण करून (Personal Recommendations).</label>
+                    <label class="option-label"><input type="radio" name="q6" value="C"> रँडम पद्धतीने कोणताही व्हिडिओ समोर आणून.</label>
+                </div>
+            </div>
+
+            <div class="quiz-slide" data-section="4" data-module="आपल्या आजूबाजूचे AI">
+                <div class="module-indicator">विभाग ३: आपल्या आजूबाजूचे AI</div>
+                <p class="question-text">७. आधुनिक स्मार्टफोनमधील कोणती महत्त्वाची सुविधा थेट इन-बिल्ट AI न्यूरल हार्डवेअर प्रोसेसरवर अवलंबून असते?</p>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q7" value="A"> सामान्य सेल्युलर नेटवर्क सिग्नल पकडणे आणि सिम कार्ड चालवणे.</label>
+                    <label class="option-label"><input type="radio" name="q7" value="B"> रिअल-टाइम बायोमेट्रिक फेशियल रिकग्निशन (Face Lock) आणि फोटो स्टॅबिलायझेशन.</label>
+                    <label class="option-label"><input type="radio" name="q7" value="C"> कॉम्प्युटर किंवा फोनच्या घड्याळाची वेळ बदलणे.</label>
+                </div>
+            </div>
+
+            <div class="quiz-slide" data-section="4" data-module="आपल्या आजूबाजूचे AI">
+                <div class="module-indicator">विभाग ३: आपल्या आजूबाजूचे AI</div>
+                <p class="question-text">८. डिजिटल मेसेजिंग ॲप्समधील चॅटिंग सुलभ करण्यासाठी AI ची भूमिका काय असते?</p>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q8" value="A"> संख्या असलेला कोणताही मेसेज पाठवण्यापासून रोखणे.</label>
+                    <label class="option-label"><input type="radio" name="q8" value="B"> संदर्भावरून पुढील शब्दाचा अंदाज लावणे आणि ऑटो-कंप्लीट उत्तरे सुचवणे (Smart Autocomplete).</label>
+                    <label class="option-label"><input type="radio" name="q8" value="C"> सर्व मेसेज मॅन्युअल ऑडिट होईपर्यंत आउटबॉक्समध्ये रोखून ठेवणे.</label>
+                </div>
+            </div>
+
+            <div class="quiz-slide" data-section="4" data-module="आपल्या आजूबाजूचे AI">
+                <div class="module-indicator">विभाग ३: आपल्या आजूबाजूचे AI</div>
+                <p class="question-text">९. ई-कॉमर्स वेबसाईट्स (उदा. ऑनलाईन शॉपिंग) AI चा वापर करून तुमचा खरेदीचा अनुभव कसा वैयक्तिकृत करतात?</p>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q9" value="A"> प्रत्येक खरेदीदाराला एकच सारखे स्टोअरफ्रंट आणि वस्तू दाखवून.</label>
+                    <label class="option-label"><input type="radio" name="q9" value="B"> तुम्ही पाहिलेल्या वस्तू आणि जुन्या खरेदीच्या आधारे संबंधित उत्पादने सुचवून (Shopping Experience).</label>
+                    <label class="option-label"><input type="radio" name="q9" value="C"> प्रत्येक वेळेस पेज रिफ्रेश केल्यावर वस्तूंच्या किमती पूर्णपणे बदलून.</label>
+                </div>
+            </div>
+
+            <div class="quiz-slide" data-section="4" data-module="आपल्या आजूबाजूचे AI">
+                <div class="module-indicator">विभाग ३: आपल्या आजूबाजूचे AI</div>
+                <p class="question-text">१०. बँकिंग क्षेत्रात ट्रान्झॅक्शन सिक्युरिटी (Transaction Security) अल्गोरिदम प्रामुख्याने काय शोधण्यासाठी AI चा वापर करतात?</p>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q10" value="A"> ग्राहकाच्या खात्यातील शिल्लक रक्कम एका विशिष्ट मर्यादेपेक्षा कमी आहे का.</label>
+                    <label class="option-label"><input type="radio" name="q10" value="B"> संशयास्पद किंवा असामान्य व्यवहार जे ग्राहकाच्या नियमित पॅटर्नशी जुळत नाहीत (Financial Fraud Security).</label>
+                    <label class="option-label"><input type="radio" name="q10" value="C"> बँक सर्व्हरच्या इंटरनेटचा नेमका स्पीड किती आहे.</label>
+                </div>
+            </div>
+
+            <div class="quiz-slide" data-section="4" data-module="आपल्या आजूबाजूचे AI">
+                <div class="module-indicator">विभाग ३: आपल्या आजूबाजूचे AI</div>
+                <p class="question-text">११. सोशल मीडिया प्लॅटफॉर्म्स युजर्सना त्यांच्या फीडमध्ये पोस्ट दाखवण्यासाठी AI चा वापर का करतात?</p>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q11" value="A"> युजर्सना त्यांच्या आवडीचा मजकूर दाखवून त्यांचे प्लॅटफॉर्मवरील एंगेजमेंट वाढवण्यासाठी (Feed Optimization).</label>
+                    <label class="option-label"><input type="radio" name="q11" value="B"> केवळ वेळेच्या क्रमानुसार (Chronological) कोणत्याही विश्लेषणाशिवाय पोस्ट दाखवण्यासाठी.</label>
+                    <label class="option-label"><input type="radio" name="q11" value="C"> जास्तीत जास्त जुन्या आणि कालबाह्य झालेल्या पोस्ट दाखवण्यासाठी.</label>
+                </div>
+            </div>
+
+            <div class="quiz-slide" data-section="4" data-module="आपल्या आजूबाजूचे AI">
+                <div class="module-indicator">विभाग ३: आपल्या आजूबाजूचे AI</div>
+                <p class="question-text">१२. वैद्यकीय क्षेत्रात प्रगत इमेजिंग सिस्टीम्स (उदा. एक्स-रे, एमआरआय) मध्ये AI ची मुख्य भूमिका काय आहे?</p>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q12" value="A"> डॉक्टरांच्या सल्ल्याशिवाय थेट रुग्णाला औषधोपचार लिहून देणे.</label>
+                    <label class="option-label"><input type="radio" name="q12" value="B"> डॉक्टरांच्या पुनरावलोकनासाठी इमेजमधील सूक्ष्म किंवा असामान्य आजार शोधणे (Diagnostic Support).</label>
+                    <label class="option-label"><input type="radio" name="q12" value="C"> रुग्णालयातील केवळ कागदपत्रांचे व्यवस्थापन करणे.</label>
+                </div>
+            </div>
+
+            <div class="quiz-slide" data-section="12" data-module="जनरेटिव्ह AI">
+                <div class="module-indicator">विभाग ४: जनरेटिव्ह AI</div>
+                <p class="question-text">१३. केवळ डेटाचे विश्लेषण करणाऱ्या पारंपारिक AI मॉडेलच्या तुलनेत जनरेटिव्ह AI (Generative AI) चे मुख्य उद्दिष्ट काय आहे?</p>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q13" value="A"> जुन्या फाइल्स जशाच्या तशा कॉम्प्युटर डेटाबेसमध्ये सेव्ह करणे.</label>
+                    <label class="option-label"><input type="radio" name="q13" value="B"> ट्रेनिंग डेटाच्या आधारे पूर्णपणे नवीन आणि ओरिजिनल मजकूर किंवा चित्रे तयार करणे (Content Creation Engine).</label>
+                    <label class="option-label"><input type="radio" name="q13" value="C"> विशिष्ट मर्यादेबाहेरील जुन्या डेटा फाइल्स आपोआप डिलीट करणे.</label>
+                </div>
+            </div>
+
+            <div class="quiz-slide" data-section="12" data-module="जनरेटिव्ह AI">
+                <div class="module-indicator">विभाग ४: जनरेटिव्ह AI</div>
+                <p class="question-text">१४. चॅटजीपीटी (ChatGPT) सारख्या मॉडेल्समध्ये 'मजकूर निर्मिती प्रक्रिया' (Text Generation Flow) कशी चालते?</p>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q14" value="A"> मॉडेल गुगलवरून आधीच लिहिलेली उत्तरे कॉपी-पेस्ट करून दाखवते.</label>
+                    <label class="option-label"><input type="radio" name="q14" value="B"> मॉडेल दिलेल्या संदर्भाच्या आधारे सांख्यिकीय पद्धतीने पुढील सर्वात योग्य शब्दाचा अंदाज लावून वाक्य तयार करते.</label>
+                    <label class="option-label"><input type="radio" name="q14" value="C"> मजकूराचे स्क्रीनवर दाखवण्यापूर्वी रँडियर प्रतिमेत रूपांतर केले जाते.</label>
+                </div>
+            </div>
+
+            <div class="quiz-slide" data-section="12" data-module="जनरेटिव्ह AI">
+                <div class="module-indicator">विभाग ४: जनरेटिव्ह AI</div>
+                <p class="question-text">१५. एआय इमेज जनरेशन (उदा. मिडजर्नी) साधन आपण लिहिलेल्या प्रॉम्टवरून नवीन चित्र कसे तयार करते?</p>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q15" value="A"> इंटरनेटवरील वेगवेगळ्या फोटोंचे लहान तुकडे एकत्र क्रॉप आणि मर्ज करून.</label>
+                    <label class="option-label"><input type="radio" name="q15" value="B"> तुमच्या शाब्दिक प्रॉम्टला समजून डिफ्यूजन किंवा ट्रान्सफॉर्मर तंत्रज्ञानाद्वारे नवीन पिक्सेल पॅटर्न तयार करून (Digital Image Creation).</label>
+                    <label class="option-label"><input type="radio" name="q15" value="C"> कॉम्प्युटरवरील साधे भौमितिक आकार एकत्र जोडून.</label>
+                </div>
+            </div>
+
+            <div class="quiz-slide" data-section="15" data-module="प्रॉम्टिंग आणि कार्यक्षमता">
+                <div class="module-indicator">विभाग ५ व ६: प्रॉम्टिंग आणि कार्यक्षमता</div>
+                <p class="question-text">१६. एआय साधनांचा वापर करताना स्पष्ट 'प्रॉम्ट' (Prompting) लिहिण्याचे मुख्य महत्त्व काय आहे?</p>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q16" value="A"> एआयला अचूक आणि संबंधित उत्तर देण्यासाठी स्पष्ट संदर्भ, मर्यादा आणि मार्गदर्शक तत्त्वे प्रदान करणे.</label>
+                    <label class="option-label"><input type="radio" name="q16" value="B"> सॉफ्टवेअरच्या रॅम किंवा प्रोसेसरच्या मर्यादा निश्चित करणे.</label>
+                    <label class="option-label"><input type="radio" name="q16" value="C"> चॅट विंडोचा फॉन्ट आणि रंग बदलणे.</label>
+                </div>
+            </div>
+
+            <div class="quiz-slide" data-section="15" data-module="प्रॉम्टिंग आणि कार्यक्षमता">
+                <div class="module-indicator">विभाग ५ व ६: प्रॉम्टिंग आणि कार्यक्षमता</div>
+                <p class="question-text">१७. जर एआयने तुमच्या प्रॉम्टवर चुकीचे किंवा अत्यंत सामान्य (Vague) उत्तर दिले, तर कोणती रणनीती सर्वात योग्य ठरेल?</p>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q17" value="A"> कोणताही बदल न करता तोच प्रॉम्ट वारंवार सबमिट करणे.</label>
+                    <label class="option-label"><input type="radio" name="q17" value="B"> प्रॉम्ट सुधारून त्यामध्ये उदाहरणे, नेमक्या अटी आणि स्पष्ट उद्दिष्टे जोडणे (Refining Prompt).</label>
+                    <label class="option-label"><input type="radio" name="q17" value="C"> कॉम्प्युटरचा ब्राउझर डेटा किंवा कॅशे पूर्णपणे डिलीट करणे.</label>
+                </div>
+            </div>
+
+            <div class="quiz-slide" data-section="15" data-module="प्रॉम्टिंग आणि कार्यक्षमता">
+                <div class="module-indicator">विभाग ५ व ६: प्रॉम्टिंग आणि कार्यक्षमता</div>
+                <p class="question-text">१८. कामाच्या ठिकाणी ईमेल लेखनासाठी (Email Generation) एआय मॉडेलचा वापर केल्यास काय फायदा होतो?</p>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q18" value="A"> हे कोणत्याही परवानगीशिवाय तुमच्या सहकाऱ्यांना परस्पर ईमेल पाठवून देते.</label>
+                    <label class="option-label"><input type="radio" name="q18" value="B"> हे तुमच्या साध्या तांत्रिक मुद्द्यांना (Bullet Points) अत्यंत व्यावसायिक, नम्र आणि संदर्भासहित मसुद्यात रूपांतरित करते.</label>
+                    <label class="option-label"><input type="radio" name="q18" value="C"> हे ठराविक शब्दांपेक्षा मोठे असलेले ईमेल आपोआप ब्लॉक करते.</label>
+                </div>
+            </div>
+
+            <div class="quiz-slide" data-section="15" data-module="प्रॉम्टिंग आणि कार्यक्षमता">
+                <div class="module-indicator">विभाग ५ व ६: प्रॉम्टिंग आणि कार्यक्षमता</div>
+                <p class="question-text">१९. नवीन कल्पना शोधताना (Brainstorming Sessions) एआय साधनांचा वापर करण्याचा मुख्य फायदा काय आहे?</p>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q19" value="A"> हे केवळ एकाच पारंपरिक चौकटीत विचार करायला भाग पाडते.</label>
+                    <label class="option-label"><input type="radio" name="q19" value="B"> हे नवीन दृष्टिकोन, विविध कल्पना आणि सुरुवातीचे मसुदे वेगाने तयार करण्यासाठी एक उत्तम 'साउंडिंग बोर्ड' म्हणून काम करते.</label>
+                    <label class="option-label"><input type="radio" name="q19" value="C"> हे कंपनीच्या धोरणांमध्ये कोणतेही नवीन बदल सुचवू शकत नाही.</label>
+                </div>
+            </div>
+
+            <div class="quiz-slide" data-section="15" data-module="प्रॉम्टिंग आणि कार्यक्षमता">
+                <div class="module-indicator">विभाग ५ व ६: प्रॉम्टिंग आणि कार्यक्षमता</div>
+                <p class="question-text">२०. मानवी संसाधन (HR Process Speedup) प्रक्रियेत गोपनीयतेचे नियम पाळून एआयचा सुरक्षित वापर कसा केला जाऊ शकतो?</p>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q20" value="A"> कर्मचाऱ्यांचे अंतिम कायदेशीर निर्णय पूर्णपणे एआयवर सोडून देऊन.</label>
+                    <label class="option-label"><input type="radio" name="q20" value="B"> ट्रेनिंग रूपरेषा, नवीन कर्मचाऱ्यांचे इंडक्शन वेळापत्रक आणि प्राथमिक स्क्रीनिंग निकषांचे मसुदे तयार करण्यासाठी.</label>
+                    <label class="option-label"><input type="radio" name="q20" value="C"> कर्मचाऱ्यांच्या गोपनीय वैद्यकीय फाइल्स सार्वजनिक एआय प्लॅटफॉर्मवर अपलोड करून.</label>
+                </div>
+            </div>
+
+            <div class="quiz-slide" id="resultsDashboard">
+                <div class="dashboard-card">
+                    <h2 class="dashboard-title">चाचणी पूर्ण झाली!</h2>
+                    <p>प्रशिक्षण मानकांनुसार तुमच्या कामगिरीचा अहवाल खालीलप्रमाणे आहे:</p>
+                    
+                    <div class="metrics-container">
+                        <div class="metric-tile pass">
+                            <div class="value-text" id="correctScore">0 / 20</div>
+                            <div class="label-text">बरोबर उत्तरे (Out of 20)</div>
+                        </div>
+                        <div class="metric-tile pass">
+                            <div class="value-text" id="percentScore">0%</div>
+                            <div class="label-text">एकूण टक्केवारी (%)</div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="retry-btn" onclick="resetAssessment()">चाचणी पुन्हा द्या</button>
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+    <div class="control-panel" id="controlPanel">
+        <button class="nav-btn" id="prevBtn" onclick="shiftActiveSlide(-1)" disabled>मागे</button>
+        <span class="progress-indicator" id="progressTxt">प्रश्न १ पैकी २०</span>
+        <button class="nav-btn" id="nextBtn" onclick="shiftActiveSlide(1)">पुढे</button>
+        <button class="nav-btn submit-btn" id="finalSubmitBtn" onclick="processFinalGrade()" style="display:none;">चाचणी सबमिट करा</button>
+    </div>
+</div>
+
+<script>
+    let slides = document.querySelectorAll('.quiz-slide');
+    let currentIdx = 0;
+    const totalQuestionsCount = 20;
+
+    // Strict Master Answer Key 
+    const answersKey = {
+        q1: 'B', q2: 'B', q3: 'B', q4: 'A', q5: 'B',
+        q6: 'B', q7: 'B', q8: 'B', q9: 'B', q10: 'B',
+        q11: 'A', q12: 'B', q13: 'B', q14: 'B', q15: 'B',
+        q16: 'A', q17: 'B', q18: 'B', q19: 'B', q20: 'B'
+    };
+
+    function updateControlDashboard() {
+        if (currentIdx >= totalQuestionsCount) {
+            document.getElementById('controlPanel').style.display = 'none';
+            return;
+        } else {
+            document.getElementById('controlPanel').style.display = 'flex';
+        }
+
+        document.getElementById('prevBtn').disabled = (currentIdx === 0);
+        
+        if (currentIdx === totalQuestionsCount - 1) {
+            document.getElementById('nextBtn').style.display = 'none';
+            document.getElementById('finalSubmitBtn').style.display = 'block';
+        } else {
+            document.getElementById('nextBtn').style.display = 'block';
+            document.getElementById('finalSubmitBtn').style.display = 'none';
+        }
+
+        document.getElementById('progressTxt').innerText = `प्रश्न ${currentIdx + 1} पैकी ${totalQuestionsCount}`;
+        
+        let sectionVal = slides[currentIdx].getAttribute('data-section');
+        document.getElementById('moduleJump').value = sectionVal;
+    }
+
+    function shiftActiveSlide(direction) {
+        slides[currentIdx].classList.remove('active');
+        currentIdx += direction;
+        slides[currentIdx].classList.add('active');
+        updateControlDashboard();
+    }
+
+    function jumpToModuleQuestion(questionIndexStr) {
+        slides[currentIdx].classList.remove('active');
+        currentIdx = parseInt(questionIndexStr, 10);
+        slides[currentIdx].classList.add('active');
+        updateControlDashboard();
+    }
+
+    function markOptionSelected(e) {
+        if (e.target.type === 'radio') {
+            let containerGroup = e.target.closest('.options-group');
+            containerGroup.querySelectorAll('.option-label').forEach(lbl => {
+                lbl.classList.remove('selected');
+            });
+            e.target.closest('.option-label').classList.add('selected');
+        }
+    }
+
+    function processFinalGrade() {
+        let form = document.getElementById('interactiveForm');
+        let rightCounter = 0;
+
+        for (let targetQ in answersKey) {
+            if (form.elements[targetQ] && form.elements[targetQ].value === answersKey[targetQ]) {
+                rightCounter++;
+            }
+        }
+
+        let totalPercent = Math.round((rightCounter / totalQuestionsCount) * 100);
+
+        // Render to DOM results tiles
+        document.getElementById('correctScore').innerText = `${rightCounter} / ${totalQuestionsCount}`;
+        document.getElementById('percentScore').innerText = `${totalPercent}%`;
+
+        // Switch layout view to dashboard slide
+        slides[currentIdx].classList.remove('active');
+        currentIdx = totalQuestionsCount; 
+        document.getElementById('resultsDashboard').classList.add('active');
+        updateControlDashboard();
+    }
+
+    function resetAssessment() {
+        document.getElementById('interactiveForm').reset();
+        document.querySelectorAll('.option-label').forEach(lbl => lbl.classList.remove('selected'));
+        
+        document.getElementById('resultsDashboard').classList.remove('active');
+        currentIdx = 0;
+        slides[currentIdx].classList.add('active');
+        updateControlDashboard();
+    }
+
+    updateControlDashboard();
+</script>
+
+</body>
+</html>
