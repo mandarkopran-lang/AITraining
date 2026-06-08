@@ -26,35 +26,41 @@
     color: var(--text);
     display: flex;
     justify-content: center;
-    align-items: center;
-    /* FIX: Uses svh (Short Viewport Height) to dynamically account for mobile browser bars */
+    align-items: flex-start; /* FIX: Starts content from the top so it can scroll naturally */
     min-height: 100vh;
-    min-height: 100svh; 
     width: 100vw;
-    overflow: hidden;
+    overflow-y: auto; /* FIX: Allows the main browser window to scroll if buttons go too low */
 }
 
 .presentation-container {
     position: relative;
     width: 100vw;
-    /* FIX: Tells the container to dynamically adjust inside mobile window frames */
-    height: 100vh;
-    height: 100svh;
+    min-height: 100vh; /* FIX: Changes strict 'height' to 'min-height' so the box can stretch if needed */
     background: var(--slide-bg);
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow: visible; /* FIX: Prevents the container from clipping the buttons at the bottom */
 }
 
-/* MOBILE FIX: Shrinks the vertical margins on small mobile layouts so text does not crush the bottom bar */
-@media (max-width: 768px) {
-    .slide-deck {
-        padding: 20px 25px !important; /* Reduces large desktop padding */
-    }
-    .controls-bar {
-        padding: 10px 20px !important; /* Makes control bar more compact on mobile */
-        height: 60px !important;
-    }
+.slide-deck {
+    flex: 1;
+    position: relative;
+    padding: 20px 25px; /* Compact mobile padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.controls-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    background: #f1f5f9;
+    border-top: 1px solid #e2e8f0;
+    height: auto; /* FIX: Removes rigid height constraints */
+    min-height: 60px;
+    margin-top: auto; /* FIX: Pushes buttons to the bottom of the content dynamically */
 }
 
         /* Top Module Jump-Bar */
