@@ -1730,7 +1730,7 @@ const slides = document.querySelectorAll('.slide');
             prevBtn.disabled = currentSlideIndex === 0;
             
             // Next button stays locked if it is the final slide OR if audio is actively playing
-             nextBtn.disabled = (currentSlideIndex === slides.length - 1) || isAudioPlaying;
+             //nextBtn.disabled = (currentSlideIndex === slides.length - 1) || isAudioPlaying;
             
             // This line dynamically calculates the real total and prints it in Marathi
             progressText.innerText = `स्लाईड ${currentSlideIndex + 1} ऑफ ${slides.length}`;
